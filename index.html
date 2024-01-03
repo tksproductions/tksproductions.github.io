@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <link rel="icon" href="images/pcollect.ico" type="image/x-icon">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+      <title>PCollect</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+      <style>
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+      
+      #chatbotIcon {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      body::-webkit-scrollbar {
+        display: none;
+      }
+      body {
+        -ms-overflow-style: none;
+      }
+      body {
+        scrollbar-width: none;
+        }
+        a:hover, footer img:hover{
+          border-color: #FFFFFF;
+        }
+        a, footer img {
+          transition: border-color 0.3s;
+        }
+        body {
+          cursor: default;
+        }
+         html {
+         scroll-behavior: smooth;
+         }
+         html, body {
+         overflow-x: hidden;
+         margin: 0;
+         padding: 0;
+         }
+         body {
+         -webkit-tap-highlight-color: rgba(0,0,0,0);
+         -webkit-touch-callout: none;
+         -webkit-overflow-scrolling: touch;
+         font-family: 'Poppins', sans-serif;
+         background-color: #000000;
+         color: #FFFFFF;
+         }
+         header {
+         padding: 15px 0;
+         text-align: center;
+         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+         border-bottom: 2px solid #2d2d2d;
+         margin-bottom: 10px;
+         height: 120px;
+         top: 0;
+         left: 0;
+         width: 100%;
+         z-index: 1000;
+         }
+         header a {
+         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+         margin: 0 auto;
+         font-size: 40px;
+         color: #FFFFFF;
+         text-decoration: none;
+         font-weight: bold;
+         }
+         #slogan {
+         font-weight: 400;
+         color: #FF2D98;
+         margin-top: 5px;
+         font-size: 16px;
+         }
+         #downloadCount, #downloadCount2 {
+         font-weight: 500;
+         color: #FFFFFF;
+         font-size: 16px;
+         }
+         #downloadCount {
+           padding-bottom: 10px;
+         }
+         #tapToAnimate {
+           font-weight: 500;
+           color: #FFFFFF;
+           font-size: 16px;
+           text-align: center;
+         }
+         div[style*="text-align:center;"] {
+         display:none;
+         }
+         #carousel {
+         max-width: 90vw;
+         margin: 10px auto 0;
+         padding: 30px 0;
+         }
+         #carousel img {
+         max-height: 65vh;
+         width: auto;
+         display: block;
+         border: 3px solid #FF2D98;
+         border-radius: 8px;
+         margin: auto;
+         transition: border-color 0.3s, opacity 0.3s;
+         }
+         #carousel img:hover {
+         border-color: #FFFFFF;
+         }
+         #carousel, #feedback, footer {
+         padding-top: 0px;
+         }
+         #feedback {
+         width: 80%;
+         margin: 30px auto;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         background-color: #000000;
+         border-radius: 8px;
+         padding: 30px;
+         box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
+         }
+        .tally-iframe {
+          position: relative;
+          top: -30px;
+        }
+         .appstore-button {
+         display: inline-block;
+         border: 3px solid #FF2D98;
+         overflow: hidden;
+         border-radius: 13px;
+         }
+         .appstore-button img {
+         transform: scale(1.05);
+         }
+         .iframe-crop {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         width: 110%;
+         height: 200px;
+         overflow: hidden;
+         position: relative;
+         }
+         .iframe-crop div {
+         position: relative;
+         }
+         #feedback textarea:focus {
+         outline: none;
+         border-color: #FFFFFF;
+         }
+         footer {
+         background-color: #000000;
+         color: #FFFFFF;
+         text-align: center;
+         }
+         footer img {
+         border: 3px solid #FF2D98;
+         border-radius: 10px;
+         }
+         footer a {
+         color: #FF2D98;
+         text-decoration: none;
+         transition: color 0.2s;
+         }
+         footer a:hover, footer a:active {
+         color: #FFFFFF
+         }
+         @media only screen and (max-width: 1024px) {
+          #chatbotIcon {
+            border: 3px solid #FFFFFF;      
+          }
+         #downloadCount2 {
+         display:none;
+         }
+         .qr-code {
+         display: none;
+         }
+         #desktop-appstore-button {
+         display: none;  
+         }
+         div[style*="text-align:center;"] {
+         display:block;
+         padding: 40px 0;
+         }
+         #carousel {
+         max-width: 100vw;
+         }
+         #feedback {
+         width: 95%;
+         padding: 10px;
+         margin: 0 auto 30px;
+         }
+         }
+         @media only screen and (min-width: 1024px) {
+            #tapToAnimate {
+           display: none
+         }
+        .slick-prev {
+            display: none !important;
+        }
+        .slick-next {
+            display: block !important;
+        }
+        body .slick-slider .slick-prev:before, 
+        body .slick-slider .slick-next:before {
+          color: #FF2D98;
+          opacity: 1 !important;
+          font-size: 25px;
+        }
+        body .slick-slider .slick-prev:hover:before, 
+        body .slick-slider .slick-next:hover:before {
+            color: white;
+        }
+         .iframe-crop {
+         margin-top: 5px;
+         margin-bottom:20px;
+         }
+         body {
+         max-width: 1200px;
+         margin: 0 auto;
+         }
+         #main-content {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         gap: 0px;
+         }
+         #carousel {
+         flex: 1;
+         max-width: 60%;
+         }
+         #feedback {
+         flex: 1;
+         max-width: 35%;
+         }
+         .qr-code {
+         display: flex;
+         position: relative;
+         flex-direction: column;
+         align-items: flex-start;
+         gap: 50px;
+         }
+         .qr-code img {
+         width: 100%;
+         max-width: 250px;
+         }
+         #feedback, .qr-code {
+         flex: 1;
+         max-width: 32%;
+         }
+         #desktop-appstore-button {
+         display: block;
+         margin-bottom: 20px;
+         position: absolute;
+         top: 50%;
+         right: 50%;
+         transform: translateY(-50%) rotate(-90deg) scale(0.9);
+         margin-left: 20px;
+         }
+         #desktop-appstore-button a.appstore-button img {
+         width: 240px;
+         transform: scale(1.14) translateY(3px);
+         }
+         }
+
+          #chatbotIcon {
+            width: 60px;
+            height: 60px;
+            background-color: #FF2D98;
+            color: #FFF;
+            border-radius: 50%;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9999;
+            font-size: 25px;
+            border: 3px solid #FF2D98;
+          }
+          #chatbotIcon:hover {
+            border: 3px solid #FFFFFF;      
+          }
+
+          #chatbotModal {
+            width: 303px;
+            height: 400px;
+            position: fixed;
+            right: 20px;
+            bottom: 90px;
+            display: none;
+            z-index: 9998;
+          }
+
+          #chatbotModal iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+          }
+        @media only screen and (max-width: 1024px) {
+          #chatbotIcon {
+            border: 3px solid #FFFFFF;      
+          }
+        }
+      </style>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+   </head>
+   <body>
+      <header>
+         <div class="logo-title-container" style="display: flex; align-items: center; justify-content: center; gap: 5px; width: fit-content; margin: 0 auto;">
+            <a style="background-image: url('images/pcollect.png'); background-size: 90px; background-position: -20px center; width: 60px; height: 80px; border-radius: 22%; display: block;"></a>
+            <a>PCollect</a>
+         </div>
+         <div id="slogan">Catalog your K-pop collection!</div>
+      </header>
+      <div style="text-align:center; padding: 20px 0;">
+         <div id="downloadCount">20,000+ Downloads</div>
+         <a href="https://apps.apple.com/us/app/pcollect-kpop-photocards/id6448884412?itsct=apps_box_badge&amp;itscg=30200" class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 250px; height: 83px;">
+            <div>
+               <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store" style="border-radius: 13px; width: 250px; height: 83px;">
+            </div>
+         </a>
+      </div>
+      <div id="main-content">
+        <div id="tapToAnimate">Tap to animate</div>
+         <div id="carousel">
+            <div><img src="images/1.png" alt="Screenshot 1" class="carousel-image"></div>
+            <div><img src="images/2.png" alt="Screenshot 2" class="carousel-image"></div>
+            <div><img src="images/3.png" alt="Screenshot 3" class="carousel-image"></div>
+            <div><img src="images/4.png" alt="Screenshot 4" class="carousel-image"></div>
+         </div>
+         <div id="feedback">
+            <div id="downloadCount2">20,000+ Downloads</div>
+            <div class="qr-code">
+               <div id="desktop-appstore-button">
+                  <a href="https://apps.apple.com/us/app/pcollect-kpop-photocards/id6448884412?itsct=apps_box_badge&amp;itscg=30200" class="appstore-button">
+                  <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store">
+                  </a>
+               </div>
+               <img src="images/qrcode.png" alt="QR Code" style="width:250px">
+            </div>
+            <div class="iframe-crop">
+  <iframe class="tally-iframe" data-tally-src="https://tally.so/embed/mY0rjv?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="80%" height="290" frameborder="0" marginheight="0" marginwidth="0" title="PCollect Feedback Form"></iframe>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="pcollect" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF2D98" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+               <script>
+                  var d = document,
+                      w = "https://tally.so/widgets/embed.js",
+                      v = function() {
+                          "undefined" != typeof Tally ? Tally.loadEmbeds() : d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e) {
+                              e.src = e.dataset.tallySrc
+                          }))
+                      };
+                  if ("undefined" != typeof Tally) v();
+                  else if (d.querySelector('script[src="' + w + '"]') == null) {
+                      var s = d.createElement("script");
+                      s.src = w;
+                      s.onload = v;
+                      s.onerror = v;
+                      d.body.appendChild(s);
+                  }
+               </script>
+            </div>
+         </div>
+      </div>
+
+      <footer>
+         <a href="https://instagram.com/pcollectapp" target="_blank"><img src="images/instagram.png" alt="Instagram" style="width: 50px;"></a>
+         <a href="https://tiktok.com/@pcollectapp" target="_blank"><img src="images/tiktok.png" alt="TikTok" style="width: 50px;"></a>
+         <a href="https://tiktok.com/@pcollectapp" target="_blank"><img src="images/discord.png" alt="TikTok" style="width: 50px;"></a>
+         <div style="margin-top: 2px; margin-bottom:10px">
+            Need help? <a href="mailto:help@pcollect.app?subject=PCollect Support Request&body=I need help with...">Contact Us</a>
+         </div>
+      </footer>
+      <script>
+        window.onload = function() {
+
+    var imagesToPreload = [
+        'images/1.gif',
+        'images/2.gif',
+        'images/3.gif',
+        'images/4.gif'
+    ];
+
+    imagesToPreload.forEach(function(image) {
+        var link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = image;
+        link.as = 'image';
+        document.head.appendChild(link);
+    });
+};
+
+function toggleChatbot() {
+  const chatbotModal = document.getElementById('chatbotModal');
+  const chatbotIcon = document.getElementById('chatbotIcon');
+  
+  if (chatbotModal.style.display === 'none' || chatbotModal.style.display === '') {
+    chatbotModal.style.display = 'block';
+    chatbotIcon.style.visibility = 'hidden';
+
+    document.addEventListener('click', handleOutsideClick);
+  } else {
+    closeChatbot();
+  }
+}
+
+function closeChatbot() {
+  const chatbotModal = document.getElementById('chatbotModal');
+  const chatbotIcon = document.getElementById('chatbotIcon');
+  
+  chatbotModal.style.display = 'none';
+  chatbotIcon.style.visibility = 'visible';
+
+  document.removeEventListener('click', handleOutsideClick);
+}
+
+function handleOutsideClick(event) {
+  const chatbotModal = document.getElementById('chatbotModal');
+  if (!chatbotModal.contains(event.target) && event.target.id !== 'chatbotIcon') {
+    closeChatbot();
+  }
+}
+
+         $(document).ready(function() {
+         $(".carousel-image").hover(
+             function() { 
+                 let currentSrc = $(this).attr('src');
+                 let gifSrc = currentSrc.replace('.png', '.gif');
+                 $(this).attr('src', gifSrc);
+             },
+             function() { 
+                 let currentSrc = $(this).attr('src');
+                 let pngSrc = currentSrc.replace('.gif', '.png');
+                 $(this).attr('src', pngSrc);
+             }
+         );
+         });
+         
+          $('#carousel').slick({
+              dots: true,
+              arrows: true,
+              infinite: true,
+              speed: 300,
+              slidesToShow: 3,
+              adaptiveHeight: true,
+              centerMode: false, 
+              responsive: [
+                  {
+                      breakpoint: 1028, 
+                      settings: {
+                          slidesToShow: 1,
+                          centerMode: true, 
+                          centerPadding: '15%',
+                      }
+                  }
+              ]
+          });
+          document.addEventListener('touchmove', function(event) {
+              if (event.scale !== 1) { 
+                  event.preventDefault(); 
+              }
+          }, { passive: false });  
+          
+          document.addEventListener('DOMContentLoaded', function() {
+          
+          const startDate = new Date('2023-02-13T00:00:00'); 
+          const downloadCount = document.getElementById('downloadCount');
+          const downloadCount2 = document.getElementById('downloadCount2');
+          
+          function displayCount() {
+          const now = new Date();
+          const diffInMilliseconds = now - startDate;
+          const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 17)) - 9350;
+          
+          const formattedDiffInHours = diffInHours.toLocaleString();
+          
+          downloadCount.innerText = `${formattedDiffInHours} Downloads`;
+          downloadCount2.innerText = `${formattedDiffInHours} Downloads`;
+          }
+          
+          displayCount();
+          });
+      </script>
+   </body>
+</html>
