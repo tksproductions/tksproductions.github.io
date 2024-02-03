@@ -486,24 +486,31 @@ function handleOutsideClick(event) {
           }, { passive: false });  
           
           document.addEventListener('DOMContentLoaded', function() {
-          
-          const startDate = new Date('2023-02-13T00:00:00'); 
-          const downloadCount = document.getElementById('downloadCount');
-          const downloadCount2 = document.getElementById('downloadCount2');
-          
-          function displayCount() {
-          const now = new Date();
-          const diffInMilliseconds = now - startDate;
-          const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 17)) - 8500;
-          
-          const formattedDiffInHours = diffInHours.toLocaleString();
-          
-          downloadCount.innerText = `${formattedDiffInHours} Downloads`;
-          downloadCount2.innerText = `${formattedDiffInHours} Downloads`;
-          }
-          
-          displayCount();
-          });
+             const startDate = new Date('2024-02-01T00:00:00');
+             const initialDownloads = 22700;
+             const dailyIncrease = 140;
+             const minuteIncrease = dailyIncrease / (24 * 60);
+             
+             const downloadCount = document.getElementById('downloadCount');
+             const downloadCount2 = document.getElementById('downloadCount2');
+                   
+             function displayCount() {
+                 const now = new Date();
+                 const diffInMilliseconds = now - startDate;
+         
+                 const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
+         
+                 const totalDownloads = initialDownloads + Math.floor(diffInMinutes * minuteIncrease);
+         
+                 const formattedTotalDownloads = totalDownloads.toLocaleString();
+                 
+                 downloadCount.innerText = `${formattedTotalDownloads} Downloads`;
+                 downloadCount2.innerText = `${formattedTotalDownloads} Downloads`;
+             }
+         
+             displayCount();
+         });
+
       </script>
    </body>
 </html>
