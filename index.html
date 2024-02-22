@@ -39,15 +39,19 @@
          margin-top: 0;
          -ms-overflow-style: none;
          scrollbar-width: none;
+         cursor: default;
+         -webkit-tap-highlight-color: rgba(0,0,0,0);
+         -webkit-touch-callout: none;
+         -webkit-overflow-scrolling: touch;
+         font-family: 'Poppins', sans-serif;
+         background-color: #000000;
+         color: #FFFFFF;
          }
          a:hover, footer img:hover{
          border-color: #FFFFFF;
          }
          a, footer img {
          transition: border-color 0.3s;
-         }
-         body {
-         cursor: default;
          }
          html {
          scroll-behavior: smooth;
@@ -56,14 +60,6 @@
          overflow-x: hidden;
          margin: 0;
          padding: 0;
-         }
-         body {
-         -webkit-tap-highlight-color: rgba(0,0,0,0);
-         -webkit-touch-callout: none;
-         -webkit-overflow-scrolling: touch;
-         font-family: 'Poppins', sans-serif;
-         background-color: #000000;
-         color: #FFFFFF;
          }
          header {
          margin-top: 0;
@@ -392,14 +388,14 @@
       </footer>
       <script>
          window.onload = function() {
-
+         
          var imagesToPreload = [
          'images/1.gif',
          'images/2.gif',
          'images/3.gif',
          'images/4.gif'
          ];
-
+         
          imagesToPreload.forEach(function(image) {
          var link = document.createElement('link');
          link.rel = 'preload';
@@ -408,38 +404,38 @@
          document.head.appendChild(link);
          });
          };
-
+         
          function toggleChatbot() {
          const chatbotModal = document.getElementById('chatbotModal');
          const chatbotIcon = document.getElementById('chatbotIcon');
-
+         
          if (chatbotModal.style.display === 'none' || chatbotModal.style.display === '') {
          chatbotModal.style.display = 'block';
          chatbotIcon.style.visibility = 'hidden';
-
+         
          document.addEventListener('click', handleOutsideClick);
          } else {
          closeChatbot();
          }
          }
-
+         
          function closeChatbot() {
          const chatbotModal = document.getElementById('chatbotModal');
          const chatbotIcon = document.getElementById('chatbotIcon');
-
+         
          chatbotModal.style.display = 'none';
          chatbotIcon.style.visibility = 'visible';
-
+         
          document.removeEventListener('click', handleOutsideClick);
          }
-
+         
          function handleOutsideClick(event) {
          const chatbotModal = document.getElementById('chatbotModal');
          if (!chatbotModal.contains(event.target) && event.target.id !== 'chatbotIcon') {
          closeChatbot();
          }
          }
-
+         
           $(document).ready(function() {
           $(".carousel-image").hover(
               function() { 
@@ -454,7 +450,7 @@
               }
           );
           });
-
+         
            $('#carousel').slick({
                dots: true,
                arrows: true,
@@ -479,33 +475,33 @@
                    event.preventDefault(); 
                }
            }, { passive: false });  
-
+         
            document.addEventListener('DOMContentLoaded', function() {
               const startDate = new Date('2024-02-01T00:00:00');
               const initialDownloads = 22500;
               const dailyIncrease = 140;
               const minuteIncrease = dailyIncrease / (24 * 60);
-
+         
               const downloadCount = document.getElementById('downloadCount');
               const downloadCount2 = document.getElementById('downloadCount2');
-
+         
               function displayCount() {
                   const now = new Date();
                   const diffInMilliseconds = now - startDate;
-
+         
                   const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
-
+         
                   const totalDownloads = initialDownloads + Math.floor(diffInMinutes * minuteIncrease);
-
+         
                   const formattedTotalDownloads = totalDownloads.toLocaleString();
-
+         
                   downloadCount.innerText = `${formattedTotalDownloads} Downloads`;
                   downloadCount2.innerText = `${formattedTotalDownloads} Downloads`;
               }
-
+         
               displayCount();
           });
-
+         
       </script>
    </body>
 </html>
