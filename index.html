@@ -319,11 +319,6 @@
          border-radius: 10px;
          box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
          }
-         @media only screen and (max-width: 1024px) {
-         #chatbotIcon {
-         border: 3px solid #FFFFFF;      
-         }
-         }
       </style>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
@@ -397,14 +392,14 @@
       </footer>
       <script>
          window.onload = function() {
-         
+
          var imagesToPreload = [
          'images/1.gif',
          'images/2.gif',
          'images/3.gif',
          'images/4.gif'
          ];
-         
+
          imagesToPreload.forEach(function(image) {
          var link = document.createElement('link');
          link.rel = 'preload';
@@ -413,38 +408,38 @@
          document.head.appendChild(link);
          });
          };
-         
+
          function toggleChatbot() {
          const chatbotModal = document.getElementById('chatbotModal');
          const chatbotIcon = document.getElementById('chatbotIcon');
-         
+
          if (chatbotModal.style.display === 'none' || chatbotModal.style.display === '') {
          chatbotModal.style.display = 'block';
          chatbotIcon.style.visibility = 'hidden';
-         
+
          document.addEventListener('click', handleOutsideClick);
          } else {
          closeChatbot();
          }
          }
-         
+
          function closeChatbot() {
          const chatbotModal = document.getElementById('chatbotModal');
          const chatbotIcon = document.getElementById('chatbotIcon');
-         
+
          chatbotModal.style.display = 'none';
          chatbotIcon.style.visibility = 'visible';
-         
+
          document.removeEventListener('click', handleOutsideClick);
          }
-         
+
          function handleOutsideClick(event) {
          const chatbotModal = document.getElementById('chatbotModal');
          if (!chatbotModal.contains(event.target) && event.target.id !== 'chatbotIcon') {
          closeChatbot();
          }
          }
-         
+
           $(document).ready(function() {
           $(".carousel-image").hover(
               function() { 
@@ -459,7 +454,7 @@
               }
           );
           });
-         
+
            $('#carousel').slick({
                dots: true,
                arrows: true,
@@ -484,33 +479,33 @@
                    event.preventDefault(); 
                }
            }, { passive: false });  
-         
+
            document.addEventListener('DOMContentLoaded', function() {
               const startDate = new Date('2024-02-01T00:00:00');
               const initialDownloads = 22500;
               const dailyIncrease = 140;
               const minuteIncrease = dailyIncrease / (24 * 60);
-         
+
               const downloadCount = document.getElementById('downloadCount');
               const downloadCount2 = document.getElementById('downloadCount2');
-         
+
               function displayCount() {
                   const now = new Date();
                   const diffInMilliseconds = now - startDate;
-         
+
                   const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
-         
+
                   const totalDownloads = initialDownloads + Math.floor(diffInMinutes * minuteIncrease);
-         
+
                   const formattedTotalDownloads = totalDownloads.toLocaleString();
-         
+
                   downloadCount.innerText = `${formattedTotalDownloads} Downloads`;
                   downloadCount2.innerText = `${formattedTotalDownloads} Downloads`;
               }
-         
+
               displayCount();
           });
-         
+
       </script>
    </body>
 </html>
