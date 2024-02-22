@@ -12,46 +12,44 @@
       <title>PCollect</title>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
       <style>
-      * {
+         * {
          margin:0;
          padding:0;
          }
-      @keyframes float {
-        0% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-        100% {
-          transform: translateY(0px);
-        }
-      }
-      
-      #chatbotIcon {
-        animation: float 3s ease-in-out infinite;
-      }
-
-      ::-webkit-scrollbar {
-        display: none;
-        width: 0;
-        background: transparent;
-      }
-      body {
-        -ms-overflow-style: none;
-      }
-      body {
-        scrollbar-width: none;
-        }
-        a:hover, footer img:hover{
-          border-color: #FFFFFF;
-        }
-        a, footer img {
-          transition: border-color 0.3s;
-        }
-        body {
-          cursor: default;
-        }
+         @keyframes float {
+         0% {
+         transform: translateY(0px);
+         }
+         50% {
+         transform: translateY(-10px);
+         }
+         100% {
+         transform: translateY(0px);
+         }
+         }
+         #chatbotIcon {
+         animation: float 3s ease-in-out infinite;
+         }
+         ::-webkit-scrollbar {
+         display: none;
+         width: 0;
+         background: transparent;
+         }
+         body {
+         -ms-overflow-style: none;
+         }
+         body {
+         scrollbar-width: none;
+         }
+         a:hover, footer img:hover{
+         border-color: #FFFFFF;
+         }
+         a, footer img {
+         transition: border-color 0.3s;
+         }
+         body {
+         cursor: default;
+         }
          html {
          scroll-behavior: smooth;
          }
@@ -100,13 +98,13 @@
          font-size: 16px;
          }
          #downloadCount {
-           padding-bottom: 10px;
+         padding-bottom: 10px;
          }
          #tapToAnimate {
-           font-weight: 500;
-           color: #FFFFFF;
-           font-size: 16px;
-           text-align: center;
+         font-weight: 500;
+         color: #FFFFFF;
+         font-size: 16px;
+         text-align: center;
          }
          div[style*="text-align:center;"] {
          display:none;
@@ -142,10 +140,10 @@
          padding: 30px;
          box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
          }
-        .tally-iframe {
-          position: relative;
-          top: -30px;
-        }
+         .tally-iframe {
+         position: relative;
+         top: -30px;
+         }
          .appstore-button {
          display: inline-block;
          border: 3px solid #FF2D98;
@@ -189,9 +187,9 @@
          color: #FFFFFF
          }
          @media only screen and (max-width: 1024px) {
-          #chatbotIcon {
-            border: 3px solid #FFFFFF;      
-          }
+         #chatbotIcon {
+         border: 3px solid #FFFFFF;      
+         }
          #downloadCount2 {
          display:none;
          }
@@ -215,25 +213,25 @@
          }
          }
          @media only screen and (min-width: 1024px) {
-            #tapToAnimate {
-           display: none
+         #tapToAnimate {
+         display: none
          }
-        .slick-prev {
-            display: none !important;
-        }
-        .slick-next {
-            display: block !important;
-        }
-        body .slick-slider .slick-prev:before, 
-        body .slick-slider .slick-next:before {
-          color: #FF2D98;
-          opacity: 1 !important;
-          font-size: 25px;
-        }
-        body .slick-slider .slick-prev:hover:before, 
-        body .slick-slider .slick-next:hover:before {
-            color: white;
-        }
+         .slick-prev {
+         display: none !important;
+         }
+         .slick-next {
+         display: block !important;
+         }
+         body .slick-slider .slick-prev:before, 
+         body .slick-slider .slick-next:before {
+         color: #FF2D98;
+         opacity: 1 !important;
+         font-size: 25px;
+         }
+         body .slick-slider .slick-prev:hover:before, 
+         body .slick-slider .slick-next:hover:before {
+         color: white;
+         }
          .iframe-crop {
          margin-top: 5px;
          margin-bottom:20px;
@@ -285,50 +283,47 @@
          transform: scale(1.14) translateY(3px);
          }
          }
-
-          #chatbotIcon {
-            width: 60px;
-            height: 60px;
-            background-color: #FF2D98;
-            color: #FFF;
-            border-radius: 50%;
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 9999;
-            font-size: 25px;
-            border: 3px solid #FF2D98;
-          }
-          #chatbotIcon:hover {
-            border: 3px solid #FFFFFF;      
-          }
-
-          #chatbotModal {
-            width: 303px;
-            height: 400px;
-            position: fixed;
-            right: 20px;
-            bottom: 90px;
-            display: none;
-            z-index: 9998;
-          }
-
-          #chatbotModal iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-          }
-        @media only screen and (max-width: 1024px) {
-          #chatbotIcon {
-            border: 3px solid #FFFFFF;      
-          }
-        }
+         #chatbotIcon {
+         width: 60px;
+         height: 60px;
+         background-color: #FF2D98;
+         color: #FFF;
+         border-radius: 50%;
+         position: fixed;
+         right: 20px;
+         bottom: 20px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         cursor: pointer;
+         z-index: 9999;
+         font-size: 25px;
+         border: 3px solid #FF2D98;
+         }
+         #chatbotIcon:hover {
+         border: 3px solid #FFFFFF;      
+         }
+         #chatbotModal {
+         width: 303px;
+         height: 400px;
+         position: fixed;
+         right: 20px;
+         bottom: 90px;
+         display: none;
+         z-index: 9998;
+         }
+         #chatbotModal iframe {
+         width: 100%;
+         height: 100%;
+         border: none;
+         border-radius: 10px;
+         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+         }
+         @media only screen and (max-width: 1024px) {
+         #chatbotIcon {
+         border: 3px solid #FFFFFF;      
+         }
+         }
       </style>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
@@ -352,7 +347,7 @@
          </a>
       </div>
       <div id="main-content">
-        <div id="tapToAnimate">Tap to animate</div>
+         <div id="tapToAnimate">Tap to animate</div>
          <div id="carousel">
             <div><img src="images/1.png" alt="Screenshot 1" class="carousel-image"></div>
             <div><img src="images/2.png" alt="Screenshot 2" class="carousel-image"></div>
@@ -370,8 +365,8 @@
                <img src="images/qrcode.png" alt="QR Code" style="width:250px">
             </div>
             <div class="iframe-crop">
-  <iframe class="tally-iframe" data-tally-src="https://tally.so/embed/mY0rjv?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="80%" height="290" frameborder="0" marginheight="0" marginwidth="0" title="PCollect Feedback Form"></iframe>
-<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="pcollect" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF2D98" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+               <iframe class="tally-iframe" data-tally-src="https://tally.so/embed/mY0rjv?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="80%" height="290" frameborder="0" marginheight="0" marginwidth="0" title="PCollect Feedback Form"></iframe>
+               <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="pcollect" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF2D98" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
                <script>
                   var d = document,
                       w = "https://tally.so/widgets/embed.js",
@@ -392,7 +387,6 @@
             </div>
          </div>
       </div>
-
       <footer>
          <a href="https://instagram.com/pcollectapp" target="_blank"><img src="images/instagram.png" alt="Instagram" style="width: 50px;"></a>
          <a href="https://tiktok.com/@pcollectapp" target="_blank"><img src="images/tiktok.png" alt="TikTok" style="width: 50px;"></a>
@@ -402,121 +396,121 @@
          </div>
       </footer>
       <script>
-        window.onload = function() {
-
-    var imagesToPreload = [
-        'images/1.gif',
-        'images/2.gif',
-        'images/3.gif',
-        'images/4.gif'
-    ];
-
-    imagesToPreload.forEach(function(image) {
-        var link = document.createElement('link');
-        link.rel = 'preload';
-        link.href = image;
-        link.as = 'image';
-        document.head.appendChild(link);
-    });
-};
-
-function toggleChatbot() {
-  const chatbotModal = document.getElementById('chatbotModal');
-  const chatbotIcon = document.getElementById('chatbotIcon');
-  
-  if (chatbotModal.style.display === 'none' || chatbotModal.style.display === '') {
-    chatbotModal.style.display = 'block';
-    chatbotIcon.style.visibility = 'hidden';
-
-    document.addEventListener('click', handleOutsideClick);
-  } else {
-    closeChatbot();
-  }
-}
-
-function closeChatbot() {
-  const chatbotModal = document.getElementById('chatbotModal');
-  const chatbotIcon = document.getElementById('chatbotIcon');
-  
-  chatbotModal.style.display = 'none';
-  chatbotIcon.style.visibility = 'visible';
-
-  document.removeEventListener('click', handleOutsideClick);
-}
-
-function handleOutsideClick(event) {
-  const chatbotModal = document.getElementById('chatbotModal');
-  if (!chatbotModal.contains(event.target) && event.target.id !== 'chatbotIcon') {
-    closeChatbot();
-  }
-}
-
-         $(document).ready(function() {
-         $(".carousel-image").hover(
-             function() { 
-                 let currentSrc = $(this).attr('src');
-                 let gifSrc = currentSrc.replace('.png', '.gif');
-                 $(this).attr('src', gifSrc);
-             },
-             function() { 
-                 let currentSrc = $(this).attr('src');
-                 let pngSrc = currentSrc.replace('.gif', '.png');
-                 $(this).attr('src', pngSrc);
-             }
-         );
-         });
+         window.onload = function() {
          
-          $('#carousel').slick({
-              dots: true,
-              arrows: true,
-              infinite: true,
-              speed: 300,
-              slidesToShow: 3,
-              adaptiveHeight: true,
-              centerMode: false, 
-              responsive: [
-                  {
-                      breakpoint: 1028, 
-                      settings: {
-                          slidesToShow: 1,
-                          centerMode: true, 
-                          centerPadding: '15%',
-                      }
-                  }
-              ]
-          });
-          document.addEventListener('touchmove', function(event) {
-              if (event.scale !== 1) { 
-                  event.preventDefault(); 
+         var imagesToPreload = [
+         'images/1.gif',
+         'images/2.gif',
+         'images/3.gif',
+         'images/4.gif'
+         ];
+         
+         imagesToPreload.forEach(function(image) {
+         var link = document.createElement('link');
+         link.rel = 'preload';
+         link.href = image;
+         link.as = 'image';
+         document.head.appendChild(link);
+         });
+         };
+         
+         function toggleChatbot() {
+         const chatbotModal = document.getElementById('chatbotModal');
+         const chatbotIcon = document.getElementById('chatbotIcon');
+         
+         if (chatbotModal.style.display === 'none' || chatbotModal.style.display === '') {
+         chatbotModal.style.display = 'block';
+         chatbotIcon.style.visibility = 'hidden';
+         
+         document.addEventListener('click', handleOutsideClick);
+         } else {
+         closeChatbot();
+         }
+         }
+         
+         function closeChatbot() {
+         const chatbotModal = document.getElementById('chatbotModal');
+         const chatbotIcon = document.getElementById('chatbotIcon');
+         
+         chatbotModal.style.display = 'none';
+         chatbotIcon.style.visibility = 'visible';
+         
+         document.removeEventListener('click', handleOutsideClick);
+         }
+         
+         function handleOutsideClick(event) {
+         const chatbotModal = document.getElementById('chatbotModal');
+         if (!chatbotModal.contains(event.target) && event.target.id !== 'chatbotIcon') {
+         closeChatbot();
+         }
+         }
+         
+          $(document).ready(function() {
+          $(".carousel-image").hover(
+              function() { 
+                  let currentSrc = $(this).attr('src');
+                  let gifSrc = currentSrc.replace('.png', '.gif');
+                  $(this).attr('src', gifSrc);
+              },
+              function() { 
+                  let currentSrc = $(this).attr('src');
+                  let pngSrc = currentSrc.replace('.gif', '.png');
+                  $(this).attr('src', pngSrc);
               }
-          }, { passive: false });  
-          
-          document.addEventListener('DOMContentLoaded', function() {
-             const startDate = new Date('2024-02-01T00:00:00');
-             const initialDownloads = 22500;
-             const dailyIncrease = 140;
-             const minuteIncrease = dailyIncrease / (24 * 60);
-             
-             const downloadCount = document.getElementById('downloadCount');
-             const downloadCount2 = document.getElementById('downloadCount2');
-                   
-             function displayCount() {
-                 const now = new Date();
-                 const diffInMilliseconds = now - startDate;
+          );
+          });
          
-                 const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
+           $('#carousel').slick({
+               dots: true,
+               arrows: true,
+               infinite: true,
+               speed: 300,
+               slidesToShow: 3,
+               adaptiveHeight: true,
+               centerMode: false, 
+               responsive: [
+                   {
+                       breakpoint: 1028, 
+                       settings: {
+                           slidesToShow: 1,
+                           centerMode: true, 
+                           centerPadding: '15%',
+                       }
+                   }
+               ]
+           });
+           document.addEventListener('touchmove', function(event) {
+               if (event.scale !== 1) { 
+                   event.preventDefault(); 
+               }
+           }, { passive: false });  
          
-                 const totalDownloads = initialDownloads + Math.floor(diffInMinutes * minuteIncrease);
+           document.addEventListener('DOMContentLoaded', function() {
+              const startDate = new Date('2024-02-01T00:00:00');
+              const initialDownloads = 22500;
+              const dailyIncrease = 140;
+              const minuteIncrease = dailyIncrease / (24 * 60);
          
-                 const formattedTotalDownloads = totalDownloads.toLocaleString();
-                 
-                 downloadCount.innerText = `${formattedTotalDownloads} Downloads`;
-                 downloadCount2.innerText = `${formattedTotalDownloads} Downloads`;
-             }
+              const downloadCount = document.getElementById('downloadCount');
+              const downloadCount2 = document.getElementById('downloadCount2');
          
-             displayCount();
-         });
-
+              function displayCount() {
+                  const now = new Date();
+                  const diffInMilliseconds = now - startDate;
+         
+                  const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
+         
+                  const totalDownloads = initialDownloads + Math.floor(diffInMinutes * minuteIncrease);
+         
+                  const formattedTotalDownloads = totalDownloads.toLocaleString();
+         
+                  downloadCount.innerText = `${formattedTotalDownloads} Downloads`;
+                  downloadCount2.innerText = `${formattedTotalDownloads} Downloads`;
+              }
+         
+              displayCount();
+          });
+         
       </script>
    </body>
 </html>
