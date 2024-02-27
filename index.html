@@ -447,17 +447,16 @@
          }
 
         $(document).ready(function() {
-    // Function to show the video
-    function showVideo(video) {
-        $(video).show().get(0).play();
-        $(video).siblings('img').hide();
-    }
-
-    // Function to hide the video
-    function hideVideo(video) {
-        $(video).hide().get(0).pause();
-        $(video).siblings('img').show();
-        video.currentTime = 0;
+    // Function to toggle video display
+    function toggleVideo(video) {
+        if (video.paused) {
+            $(video).show().get(0).play();
+            $(video).siblings('img').hide();
+        } else {
+            $(video).hide().get(0).pause();
+            $(video).siblings('img').show();
+            video.currentTime = 0;
+        }
     }
 
     // Check if the device is a touch screen
@@ -465,37 +464,27 @@
 
     if (isTouchDevice) {
         // For touch devices (mobile, tablets)
-        $('#carousel div').on('click touchstart', function() {
+        $('#carousel .carousel-item').on('click touchstart', function(e) {
             var video = $(this).find('video')[0];
-            if (video.readyState >= 3) {
-                showVideo(video);
-            } else {
-                $(video).on('canplay', function() {
-                    showVideo(video);
-                });
-            }
+            toggleVideo(video);
         });
     } else {
         // For non-touch devices (desktop)
-        $('#carousel div').hover(
+        $('#carousel .carousel-item').hover(
             function() {
                 var video = $(this).find('video')[0];
-                if (video.readyState >= 3) {
-                    showVideo(video);
-                } else {
-                    $(video).on('canplay', function() {
-                        showVideo(video);
-                    });
-                }
+                $(video).show().get(0).play();
+                $(video).siblings('img').hide();
             },
             function() {
                 var video = $(this).find('video')[0];
-                hideVideo(video);
+                $(video).hide().get(0).pause();
+                $(video).siblings('img').show();
+                video.currentTime = 0;
             }
         );
     }
 });
-
 
            $('#carousel').slick({
                dots: true,
