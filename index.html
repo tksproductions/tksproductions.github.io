@@ -446,11 +446,12 @@
          }
          }
 
-        $(document).ready(function() {
+       $(document).ready(function() {
     var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 
     // Function to play video
     function playVideo(video) {
+        pauseAllVideosExcept(video);
         $(video).show().get(0).play();
         $(video).siblings('img').hide();
     }
@@ -460,6 +461,15 @@
         $(video).hide().get(0).pause();
         $(video).siblings('img').show();
         video.currentTime = 0;
+    }
+
+    // Function to pause all videos except the currently playing one
+    function pauseAllVideosExcept(currentVideo) {
+        $('#carousel .carousel-item video').each(function() {
+            if (this !== currentVideo) {
+                pauseVideo(this);
+            }
+        });
     }
 
     if (isTouchDevice) {
