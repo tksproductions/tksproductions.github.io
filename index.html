@@ -447,22 +447,55 @@
          }
 
         $(document).ready(function() {
-    $('#carousel div').on('click touchstart', function() {
-        var video = $(this).find('video')[0];
-        function showVideo() {
-            $(video).show().get(0).play();
-            $(video).siblings('img').hide();
-        }
+    // Function to show the video
+    function showVideo(video) {
+        $(video).show().get(0).play();
+        $(video).siblings('img').hide();
+    }
 
-        if (video.readyState >= 3) {
-            showVideo();
-        } else {
-            $(video).on('canplay', function() {
-                showVideo();
-            });
-        }
-    });
+    // Function to hide the video
+    function hideVideo(video) {
+        $(video).hide().get(0).pause();
+        $(video).siblings('img').show();
+        video.currentTime = 0;
+    }
+
+    // Check if the device is a touch screen
+    var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+
+    if (isTouchDevice) {
+        // For touch devices (mobile, tablets)
+        $('#carousel div').on('click touchstart', function() {
+            var video = $(this).find('video')[0];
+            if (video.readyState >= 3) {
+                showVideo(video);
+            } else {
+                $(video).on('canplay', function() {
+                    showVideo(video);
+                });
+            }
+        });
+    } else {
+        // For non-touch devices (desktop)
+        $('#carousel div').hover(
+            function() {
+                var video = $(this).find('video')[0];
+                if (video.readyState >= 3) {
+                    showVideo(video);
+                } else {
+                    $(video).on('canplay', function() {
+                        showVideo(video);
+                    });
+                }
+            },
+            function() {
+                var video = $(this).find('video')[0];
+                hideVideo(video);
+            }
+        );
+    }
 });
+
 
            $('#carousel').slick({
                dots: true,
