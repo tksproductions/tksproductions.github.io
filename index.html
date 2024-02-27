@@ -447,42 +447,42 @@
          }
 
         $(document).ready(function() {
-    // Function to toggle video display
-    function toggleVideo(video) {
-        if (video.paused) {
-            $(video).show().get(0).play();
-            $(video).siblings('img').hide();
-        } else {
-            $(video).hide().get(0).pause();
-            $(video).siblings('img').show();
-            video.currentTime = 0;
-        }
+    var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+
+    // Function to play video
+    function playVideo(video) {
+        $(video).show().get(0).play();
+        $(video).siblings('img').hide();
     }
 
-    // Check if the device is a touch screen
-    var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+    // Function to pause video
+    function pauseVideo(video) {
+        $(video).hide().get(0).pause();
+        $(video).siblings('img').show();
+        video.currentTime = 0;
+    }
 
     if (isTouchDevice) {
         // For touch devices (mobile, tablets)
-        $('#carousel .carousel-item').on('click touchstart', function(e) {
+        $('#carousel .carousel-item').on('click', function(e) {
             var video = $(this).find('video')[0];
-            toggleVideo(video);
+
+            // Play or pause video based on its current state
+            if (video.paused) {
+                playVideo(video);
+            } else {
+                pauseVideo(video);
+            }
         });
     } else {
         // For non-touch devices (desktop)
-        $('#carousel .carousel-item').hover(
-            function() {
-                var video = $(this).find('video')[0];
-                $(video).show().get(0).play();
-                $(video).siblings('img').hide();
-            },
-            function() {
-                var video = $(this).find('video')[0];
-                $(video).hide().get(0).pause();
-                $(video).siblings('img').show();
-                video.currentTime = 0;
-            }
-        );
+        $('#carousel .carousel-item').on('mouseenter', function() {
+            var video = $(this).find('video')[0];
+            playVideo(video);
+        }).on('mouseleave', function() {
+            var video = $(this).find('video')[0];
+            pauseVideo(video);
+        });
     }
 });
 
