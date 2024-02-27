@@ -447,30 +447,22 @@
          }
 
         $(document).ready(function() {
-            $('#carousel div').hover(
-                function() {
-                    var video = $(this).find('video')[0];
-                    function showVideo() {
-                        $(video).show().get(0).play();
-                        $(video).siblings('img').hide();
-                    }
+    $('#carousel div').on('click touchstart', function() {
+        var video = $(this).find('video')[0];
+        function showVideo() {
+            $(video).show().get(0).play();
+            $(video).siblings('img').hide();
+        }
 
-                    if (video.readyState >= 3) {
-                        showVideo();
-                    } else {
-                        $(video).on('canplay', function() {
-                            showVideo();
-                        });
-                    }
-                },
-                function() {
-                    var video = $(this).find('video')[0];
-                    $(video).hide().get(0).pause();
-                    $(video).siblings('img').show();
-                    video.currentTime = 0;
-                }
-            );
-        });
+        if (video.readyState >= 3) {
+            showVideo();
+        } else {
+            $(video).on('canplay', function() {
+                showVideo();
+            });
+        }
+    });
+});
 
            $('#carousel').slick({
                dots: true,
