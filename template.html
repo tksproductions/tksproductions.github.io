@@ -289,20 +289,22 @@
        };
      }
      
-     function downloadAll() {
+        function downloadAll() {
            var zip = new JSZip();
            var photocards = document.getElementsByClassName('photocard');
            var promises = [];
          
            for (var i = 0; i < photocards.length; i++) {
-             var canvas = photocards[i].querySelector('canvas');
-             var promise = new Promise(function (resolve) {
-               canvas.toBlob(function (blob) {
-                 zip.file('photocard_' + (i + 1) + '.png', blob);
-                 resolve();
-               }, 'image/png');
-             });
-             promises.push(promise);
+             (function(index) {
+               var canvas = photocards[index].querySelector('canvas');
+               var promise = new Promise(function (resolve) {
+                 canvas.toBlob(function (blob) {
+                   zip.file('photocard_' + (index + 1) + '.png', blob);
+                   resolve();
+                 }, 'image/png');
+               });
+               promises.push(promise);
+             })(i);
            }
          
            Promise.all(promises).then(function () {
