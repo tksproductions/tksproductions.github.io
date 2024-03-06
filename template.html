@@ -254,32 +254,25 @@
          }
          
          function displayPhotocards(extractedPhotos) {
-          var photocardsContainer = document.getElementById('photocardsContainer');
-          photocardsContainer.innerHTML = '';
-
-          for (var i = 0; i < extractedPhotos.length; i++) {
-            var photo = extractedPhotos[i];
-            var canvas = document.createElement('canvas');
-            var aspectRatio = photo.cols / photo.rows;
-            var canvasWidth = 600;
-            var canvasHeight = canvasWidth / aspectRatio;
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
-            canvas.setAttribute('id', 'photocard_canvas_' + i);
-
-            var photocardElement = document.createElement('div');
-            photocardElement.className = 'photocard';
-            photocardElement.appendChild(canvas);
-            photocardElement.addEventListener('click', createDownloadHandler(canvas));
-
-            photocardsContainer.appendChild(photocardElement);
-
-            var resizedPhoto = new cv.Mat();
-            cv.resize(photo, resizedPhoto, new cv.Size(canvasWidth, canvasHeight), 0, 0, cv.INTER_AREA);
-            cv.imshow('photocard_canvas_' + i, resizedPhoto);
-            resizedPhoto.delete();
-          }
-        }
+           var photocardsContainer = document.getElementById('photocardsContainer');
+           photocardsContainer.innerHTML = '';
+         
+           for (var i = 0; i < extractedPhotos.length; i++) {
+             var photo = extractedPhotos[i];
+             var canvas = document.createElement('canvas');
+             canvas.width = photo.cols;
+             canvas.height = photo.rows;
+             canvas.setAttribute('id', 'photocard_canvas_' + i);
+         
+             var photocardElement = document.createElement('div');
+             photocardElement.className = 'photocard';
+             photocardElement.appendChild(canvas);
+             photocardElement.addEventListener('click', createDownloadHandler(canvas));
+         
+             photocardsContainer.appendChild(photocardElement);
+             cv.imshow('photocard_canvas_' + i, photo);
+           }
+         }
          
       function createDownloadHandler(canvas) {
        return function () {
@@ -351,4 +344,4 @@
          });
       </script>
    </body>
-</html>
+</html> 
