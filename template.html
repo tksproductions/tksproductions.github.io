@@ -144,10 +144,37 @@
     }
 
     @media screen and (max-width: 600px) {
-      header h1 {
-        font-size: 24px;
-      }
-    }
+  .photocard-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .photocard {
+    border-radius: 10px;
+  }
+
+  header {
+    height: 80px;
+  }
+
+  header a {
+    font-size: 24px;
+  }
+
+  main {
+    margin: 20px auto;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .button-container label,
+  .button-container button {
+    width: 100%;
+  }
+}
   </style>
 </head>
   <body>
