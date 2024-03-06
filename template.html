@@ -182,27 +182,6 @@
            reader.readAsDataURL(file);
          });
          
-         document.getElementById('fileInput').addEventListener('change', function (e) {
-           var file = e.target.files[0];
-           var reader = new FileReader();
-           reader.onload = function (event) {
-             var img = new Image();
-             img.onload = function () {
-               var canvas = document.createElement('canvas');
-               canvas.width = img.width;
-               canvas.height = img.height;
-               var ctx = canvas.getContext('2d');
-               ctx.drawImage(img, 0, 0, img.width, img.height);
-               var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-               var src = cv.matFromImageData(imageData);
-               var extractedPhotos = extractPhotos(src);
-               displayPhotocards(extractedPhotos);
-             };
-             img.src = event.target.result;
-           };
-           reader.readAsDataURL(file);
-         });
-         
          function extractPhotos(src) {
            var gray = new cv.Mat();
            cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
