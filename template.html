@@ -277,36 +277,67 @@
            }
          }
          
-         function createDownloadHandler(canvas) {
-           return function () {
-             canvas.toBlob(function (blob) {
-               saveAs(blob, 'photocard.png');
-             }, 'image/png');
-           };
-         }
-         
-         function downloadAll() {
-           var zip = new JSZip();
-           var photocards = document.getElementsByClassName('photocard');
-           var promises = [];
-         
-           for (var i = 0; i < photocards.length; i++) {
-             var canvas = photocards[i].querySelector('canvas');
-             var promise = new Promise(function (resolve) {
-               canvas.toBlob(function (blob) {
-                 zip.file('photocard_' + (i + 1) + '.png', blob);
-                 resolve();
-               }, 'image/png');
-             });
-             promises.push(promise);
+              function createDownloadHandler(canvas) {
+       return function () {
+         canvas.toBlob(function (blob) {
+           if (navigator.share && isMobileDevice()) {
+             shareToMobile(blob);
+           } else {
+             saveAs(blob, 'photocard.png');
            }
-         
-           Promise.all(promises).then(function () {
-             zip.generateAsync({ type: 'blob' }).then(function (content) {
-               saveAs(content, 'photocards.zip');
-             });
-           });
-         }
+         }, 'image/png');
+       };
+     }
+     
+     function downloadAll() {
+       var zip = new JSZip();
+       var photocards = document.getElementsByClassName('photocard');
+       var promises = [];
+     
+       for (var i = 0; i < photocards.length; i++) {
+         var canvas = photocards[i].querySelector('canvas');
+         var promise = new Promise(function (resolve) {
+           canvas.toBlob(function (blob) {
+             zip.file('photocard_' + (i + 1) + '.png', blob);
+             resolve();
+           }, 'image/png');
+         });
+         promises.push(promise);
+       }
+     
+       Promise.all(promises).then(function () {
+         zip.generateAsync({ type: 'blob' }).then(function (content) {
+           if (navigator.share && isMobileDevice()) {
+             shareToMobile(content, true);
+           } else {
+             saveAs(content, 'photocards.zip');
+           }
+         });
+       });
+     }
+     
+     function isMobileDevice() {
+       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+     }
+     
+     function shareToMobile(blob, isZip = false) {
+       var file = new File([blob], isZip ? 'photocards.zip' : 'photocard.png', {
+         type: isZip ? 'application/zip' : 'image/png',
+       });
+     
+       if (navigator.canShare && navigator.canShare({ files: [file] })) {
+         navigator.share({
+           files: [file],
+           title: 'Photocards',
+           text: 'Check out these photocards!',
+         })
+         .then(() => console.log('Successful share'))
+         .catch((error) => console.log('Error sharing', error));
+       } else {
+         console.log('Web Share API not supported');
+         saveAs(blob, isZip ? 'photocards.zip' : 'photocard.png');
+       }
+     }
          
          document.getElementById('resetButton').addEventListener('click', function () {
            document.getElementById('photocardsContainer').innerHTML = '';
