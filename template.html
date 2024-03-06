@@ -237,7 +237,6 @@
           var src = cv.matFromImageData(imageData);
           var extractedPhotos = extractPhotos(src);
           displayPhotocards(extractedPhotos);
-          document.getElementById('downloadButton').disabled = false;
         };
         img.src = event.target.result;
       };
