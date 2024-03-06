@@ -277,7 +277,7 @@
            }
          }
          
-              function createDownloadHandler(canvas) {
+      function createDownloadHandler(canvas) {
        return function () {
          canvas.toBlob(function (blob) {
            if (navigator.share && isMobileDevice()) {
@@ -290,31 +290,27 @@
      }
      
      function downloadAll() {
-       var zip = new JSZip();
-       var photocards = document.getElementsByClassName('photocard');
-       var promises = [];
-     
-       for (var i = 0; i < photocards.length; i++) {
-         var canvas = photocards[i].querySelector('canvas');
-         var promise = new Promise(function (resolve) {
-           canvas.toBlob(function (blob) {
-             zip.file('photocard_' + (i + 1) + '.png', blob);
-             resolve();
-           }, 'image/png');
-         });
-         promises.push(promise);
-       }
-     
-       Promise.all(promises).then(function () {
-         zip.generateAsync({ type: 'blob' }).then(function (content) {
-           if (navigator.share && isMobileDevice()) {
-             shareToMobile(content, true);
-           } else {
-             saveAs(content, 'photocards.zip');
+           var zip = new JSZip();
+           var photocards = document.getElementsByClassName('photocard');
+           var promises = [];
+         
+           for (var i = 0; i < photocards.length; i++) {
+             var canvas = photocards[i].querySelector('canvas');
+             var promise = new Promise(function (resolve) {
+               canvas.toBlob(function (blob) {
+                 zip.file('photocard_' + (i + 1) + '.png', blob);
+                 resolve();
+               }, 'image/png');
+             });
+             promises.push(promise);
            }
-         });
-       });
-     }
+         
+           Promise.all(promises).then(function () {
+             zip.generateAsync({ type: 'blob' }).then(function (content) {
+               saveAs(content, 'photocards.zip');
+             });
+           });
+         }
      
      function isMobileDevice() {
        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
