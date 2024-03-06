@@ -163,11 +163,24 @@
            reader.onload = function (event) {
              var img = new Image();
              img.onload = function () {
+               var maxWidth = 7000;
+               var maxHeight = 5000;
+
                var canvas = document.createElement('canvas');
-               canvas.width = img.width;
-               canvas.height = img.height;
+               var width = img.width;
+               var height = img.height;
+
+               if (width > maxWidth || height > maxHeight) {
+                 var ratio = Math.min(maxWidth / width, maxHeight / height);
+                 width *= ratio;
+                 height *= ratio;
+               }
+
+               canvas.width = width;
+               canvas.height = height;
                var ctx = canvas.getContext('2d');
-               ctx.drawImage(img, 0, 0, img.width, img.height);
+               ctx.drawImage(img, 0, 0, width, height);
+
                var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                var src = cv.matFromImageData(imageData);
                var extractedPhotos = extractPhotos(src);
@@ -181,27 +194,27 @@
            };
            reader.readAsDataURL(file);
          });
-         
+
          function extractPhotos(src) {
            var gray = new cv.Mat();
            cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
-         
+
            var adaptiveThresholded = new cv.Mat();
            cv.adaptiveThreshold(gray, adaptiveThresholded, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 2);
-         
+
            var kernel = cv.Mat.ones(3, 3, cv.CV_8U);
            var morphed = new cv.Mat();
            cv.morphologyEx(adaptiveThresholded, morphed, cv.MORPH_CLOSE, kernel);
-         
+
            var contours = new cv.MatVector();
            var hierarchy = new cv.Mat();
            cv.findContours(morphed, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-         
+
            var extractedPhotos = [];
            var totalPixels = src.rows * src.cols;
            var minSize = Math.sqrt(0.1 / 100.0 * totalPixels);
            var sizeGroups = {};
-         
+
            for (var i = 0; i < contours.size(); i++) {
              var cnt = contours.get(i);
              var rect = cv.boundingRect(cnt);
@@ -214,10 +227,10 @@
                sizeGroups[area].push(rect);
              }
            }
-         
+
            var mostCommonSize = Object.keys(sizeGroups).reduce((a, b) => sizeGroups[a].length > sizeGroups[b].length ? a : b);
            var toleranceValue = mostCommonSize * 0.1;
-         
+
            for (var i = 0; i < contours.size(); i++) {
              var cnt = contours.get(i);
              var rect = cv.boundingRect(cnt);
@@ -228,31 +241,31 @@
                extractedPhotos.push(photo);
              }
            }
-         
+
            return extractedPhotos;
          }
-         
+
          function displayPhotocards(extractedPhotos) {
            var photocardsContainer = document.getElementById('photocardsContainer');
            photocardsContainer.innerHTML = '';
-         
+
            for (var i = 0; i < extractedPhotos.length; i++) {
              var photo = extractedPhotos[i];
              var canvas = document.createElement('canvas');
              canvas.width = photo.cols;
              canvas.height = photo.rows;
              canvas.setAttribute('id', 'photocard_canvas_' + i);
-         
+
              var photocardElement = document.createElement('div');
              photocardElement.className = 'photocard';
              photocardElement.appendChild(canvas);
              photocardElement.addEventListener('click', createDownloadHandler(canvas));
-         
+
              photocardsContainer.appendChild(photocardElement);
              cv.imshow('photocard_canvas_' + i, photo);
            }
          }
-         
+
       function createDownloadHandler(canvas) {
        return function () {
          canvas.toBlob(function (blob) {
@@ -264,12 +277,12 @@
          }, 'image/png');
        };
      }
-     
+
         function downloadAll() {
            var zip = new JSZip();
            var photocards = document.getElementsByClassName('photocard');
            var promises = [];
-         
+
            for (var i = 0; i < photocards.length; i++) {
              (function(index) {
                var canvas = photocards[index].querySelector('canvas');
@@ -282,23 +295,23 @@
                promises.push(promise);
              })(i);
            }
-         
+
            Promise.all(promises).then(function () {
              zip.generateAsync({ type: 'blob' }).then(function (content) {
                saveAs(content, 'photocards.zip');
              });
            });
          }
-     
+
      function isMobileDevice() {
        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
      }
-     
+
      function shareToMobile(blob, isZip = false) {
        var file = new File([blob], isZip ? 'photocards.zip' : 'photocard.png', {
          type: isZip ? 'application/zip' : 'image/png',
        });
-     
+
        if (navigator.canShare && navigator.canShare({ files: [file] })) {
          navigator.share({
            files: [file],
@@ -312,7 +325,7 @@
          saveAs(blob, isZip ? 'photocards.zip' : 'photocard.png');
        }
      }
-         
+
          document.getElementById('resetButton').addEventListener('click', function () {
            document.getElementById('photocardsContainer').innerHTML = '';
            document.getElementById('chooseImageButton').textContent = 'Upload Template';
