@@ -247,23 +247,23 @@
     function extractPhotos(src) {
       var gray = new cv.Mat();
       cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
-
+    
       var adaptiveThresholded = new cv.Mat();
       cv.adaptiveThreshold(gray, adaptiveThresholded, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 2);
-
+    
       var kernel = cv.Mat.ones(3, 3, cv.CV_8U);
       var morphed = new cv.Mat();
       cv.morphologyEx(adaptiveThresholded, morphed, cv.MORPH_CLOSE, kernel);
-
+    
       var contours = new cv.MatVector();
       var hierarchy = new cv.Mat();
       cv.findContours(morphed, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-
+    
       var extractedPhotos = [];
       var totalPixels = src.rows * src.cols;
       var minSize = Math.sqrt(0.1 / 100.0 * totalPixels);
       var sizeGroups = {};
-
+    
       for (var i = 0; i < contours.size(); i++) {
         var cnt = contours.get(i);
         var rect = cv.boundingRect(cnt);
@@ -276,10 +276,10 @@
           sizeGroups[area].push(rect);
         }
       }
-
+    
       var mostCommonSize = Object.keys(sizeGroups).reduce((a, b) => sizeGroups[a].length > sizeGroups[b].length ? a : b);
       var toleranceValue = mostCommonSize * 0.1;
-
+    
       for (var i = 0; i < contours.size(); i++) {
         var cnt = contours.get(i);
         var rect = cv.boundingRect(cnt);
@@ -290,7 +290,7 @@
           extractedPhotos.push(photo);
         }
       }
-
+    
       return extractedPhotos;
     }
 
