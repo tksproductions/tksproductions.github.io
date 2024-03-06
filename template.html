@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="manifest" href="images/site.webmanifest">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#000000">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+  <title>PCollect</title>
+  <script src="https://docs.opencv.org/4.5.2/opencv.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+     0% {
+     transform: translateY(0px);
+     }
+     50% {
+     transform: translateY(-10px);
+     }
+     100% {
+     transform: translateY(0px);
+     }
+     }
+     #chatbotIcon {
+     animation: float 3s ease-in-out infinite;
+     }
+     ::-webkit-scrollbar {
+     display: none;
+     width: 0;
+     background: transparent;
+     }
+     body {
+     -ms-overflow-style: none;
+     scrollbar-width: none;
+     cursor: default;
+     -webkit-tap-highlight-color: rgba(0,0,0,0);
+     -webkit-touch-callout: none;
+     -webkit-overflow-scrolling: touch;
+     font-family: 'Poppins', sans-serif;
+     background-color: #000000;
+     color: #FFFFFF;
+     }
+     html {
+     scroll-behavior: smooth;
+     }
+     html, body {
+     overflow-x: hidden;
+     margin: 0;
+     padding: 0;
+     }
+     header {
+     padding: 15px 0;
+     text-align: center;
+     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+     border-bottom: 2px solid #2d2d2d;
+     height: 120px;
+     top: 0;
+     left: 0;
+     width: 100%;
+     z-index: 1000;
+     }
+
+     header a {
+     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+     margin: 0 auto;
+     font-size: 40px;
+     color: #FFFFFF;
+     text-decoration: none;
+     font-weight: bold;
+     }
+
+     #slogan {
+     font-weight: 400;
+     color: #FF2D98;
+     margin-top: 5px;
+     font-size: 16px;
+     }
+
+    main {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .button-container label,
+    .button-container button {
+      padding: 10px 20px;
+      background-color: #000000;
+      color: #FFFFFF;
+      border: 3px solid #FF2D98;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: border-color 0.3s;
+      width: 150px;
+      text-align: center;
+    }
+
+    .button-container label:hover,
+    .button-container button:hover {
+      border-color: #FFFFFF;
+    }
+
+    .reset-button {
+      margin-top: 30px;
+    }
+
+    .photocard-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .photocard {
+      position: relative;
+      border: 5px solid #FF2D98;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .photocard:hover {
+      border-color: #FFFFFF;
+    }
+
+    .photocard canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media screen and (max-width: 600px) {
+      header h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+  <body>
+  <header>
+    <div class="logo-title-container" style="display: flex; align-items: center; justify-content: center; gap: 5px; width: fit-content; margin: 0 auto;">
+      <a style="background-image: url('images/pcollect.png'); background-size: 90px; background-position: -20px center; width: 60px; height: 80px; border-radius: 22%; display: block;"></a>
+      <a>PCollect</a>
+    </div>
+    <div id="slogan">Convert a template using AI!</div>
+  </header>
+  <main>
+    <div class="button-container">
+      <label for="fileInput" id="chooseImageButton">Upload Template</label>
+      <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+    </div>
+    <div class="photocard-container" id="photocardsContainer"></div>
+    <div class="button-container reset-button" id="resetButtonContainer" style="display: none;">
+      <button id="resetButton">Reset</button>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function (e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        var img = new Image();
+        img.onload = function () {
+          var canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, img.width, img.height);
+          var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          var src = cv.matFromImageData(imageData);
+          var extractedPhotos = extractPhotos(src);
+          displayPhotocards(extractedPhotos);
+          document.getElementById('chooseImageButton').textContent = 'Download All';
+          document.getElementById('chooseImageButton').removeAttribute('for');
+          document.getElementById('chooseImageButton').addEventListener('click', downloadAll);
+          document.getElementById('resetButtonContainer').style.display = 'flex';
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+    
+    document.getElementById('fileInput').addEventListener('change', function (e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        var img = new Image();
+        img.onload = function () {
+          var canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, img.width, img.height);
+          var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          var src = cv.matFromImageData(imageData);
+          var extractedPhotos = extractPhotos(src);
+          displayPhotocards(extractedPhotos);
+          document.getElementById('downloadButton').disabled = false;
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function extractPhotos(src) {
+      var gray = new cv.Mat();
+      cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+
+      var adaptiveThresholded = new cv.Mat();
+      cv.adaptiveThreshold(gray, adaptiveThresholded, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 2);
+
+      var kernel = cv.Mat.ones(3, 3, cv.CV_8U);
+      var morphed = new cv.Mat();
+      cv.morphologyEx(adaptiveThresholded, morphed, cv.MORPH_CLOSE, kernel);
+
+      var contours = new cv.MatVector();
+      var hierarchy = new cv.Mat();
+      cv.findContours(morphed, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+
+      var extractedPhotos = [];
+      var totalPixels = src.rows * src.cols;
+      var minSize = Math.sqrt(0.1 / 100.0 * totalPixels);
+      var sizeGroups = {};
+
+      for (var i = 0; i < contours.size(); i++) {
+        var cnt = contours.get(i);
+        var rect = cv.boundingRect(cnt);
+        var ratio = rect.width / rect.height;
+        if (5.5 / 8.5 * 0.8 <= ratio && ratio <= 5.5 / 8.5 * 1.2 && rect.width >= minSize && rect.height >= minSize) {
+          var area = rect.width * rect.height;
+          if (!sizeGroups[area]) {
+            sizeGroups[area] = [];
+          }
+          sizeGroups[area].push(rect);
+        }
+      }
+
+      var mostCommonSize = Object.keys(sizeGroups).reduce((a, b) => sizeGroups[a].length > sizeGroups[b].length ? a : b);
+      var toleranceValue = mostCommonSize * 0.1;
+
+      for (var i = 0; i < contours.size(); i++) {
+        var cnt = contours.get(i);
+        var rect = cv.boundingRect(cnt);
+        var area = rect.width * rect.height;
+        var ratio = rect.width / rect.height;
+        if (Math.abs(area - mostCommonSize) < toleranceValue && 5.5 / 8.5 * 0.8 <= ratio && ratio <= 5.5 / 8.5 * 1.2) {
+          var photo = src.roi(rect);
+          extractedPhotos.push(photo);
+        }
+      }
+
+      return extractedPhotos;
+    }
+
+    function displayPhotocards(extractedPhotos) {
+      var photocardsContainer = document.getElementById('photocardsContainer');
+      photocardsContainer.innerHTML = '';
+
+      for (var i = 0; i < extractedPhotos.length; i++) {
+        var photo = extractedPhotos[i];
+        var canvas = document.createElement('canvas');
+        canvas.width = photo.cols;
+        canvas.height = photo.rows;
+        canvas.setAttribute('id', 'photocard_canvas_' + i);
+
+        var photocardElement = document.createElement('div');
+        photocardElement.className = 'photocard';
+        photocardElement.appendChild(canvas);
+        photocardElement.addEventListener('click', createDownloadHandler(canvas));
+
+        photocardsContainer.appendChild(photocardElement);
+        cv.imshow('photocard_canvas_' + i, photo);
+      }
+    }
+
+    function createDownloadHandler(canvas) {
+      return function () {
+        canvas.toBlob(function (blob) {
+          saveAs(blob, 'photocard.png');
+        }, 'image/png');
+      };
+    }
+
+    function downloadAll() {
+      var zip = new JSZip();
+      var photocards = document.getElementsByClassName('photocard');
+      var promises = [];
+
+      for (var i = 0; i < photocards.length; i++) {
+        var canvas = photocards[i].querySelector('canvas');
+        var promise = new Promise(function (resolve) {
+          canvas.toBlob(function (blob) {
+            zip.file('photocard_' + (i + 1) + '.png', blob);
+            resolve();
+          }, 'image/png');
+        });
+        promises.push(promise);
+      }
+
+      Promise.all(promises).then(function () {
+        zip.generateAsync({ type: 'blob' }).then(function (content) {
+          saveAs(content, 'photocards.zip');
+        });
+      });
+    }
+
+    document.getElementById('resetButton').addEventListener('click', function () {
+      document.getElementById('photocardsContainer').innerHTML = '';
+      document.getElementById('chooseImageButton').textContent = 'Choose Image';
+      document.getElementById('chooseImageButton').setAttribute('for', 'fileInput');
+      document.getElementById('chooseImageButton').removeEventListener('click', downloadAll);
+      document.getElementById('resetButtonContainer').style.display = 'none';
+      document.getElementById('fileInput').value = '';
+    });
+  </script>
+</body>
+</html> 
