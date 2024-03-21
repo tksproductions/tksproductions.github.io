@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+  <title>Spotify Artist Search</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <style>
+  body {
+      background-color: black;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+  }
+
+  .header {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+  }
+
+  .search-progress-bar {
+      width: 100%;
+      height: 40px;
+      background-color: transparent;
+      border: 2px solid white;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .search-input {
+      flex: 1;
+      height: 100%;
+      background-color: transparent;
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 0 20px;
+      box-sizing: border-box;
+  }
+
+  .search-button {
+      height: 100%;
+      background-color: transparent;
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 0 20px;
+      cursor: pointer;
+      border-left: 2px solid white;
+  }
+
+  .progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background-color: #FF2E98;
+      transition: width 0.5s ease;
+  }
+
+  .artist-name {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      z-index: 1;
+  }
+
+  .comparison-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+  }
+
+  .song-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+  }
+
+  .album-cover {
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 10px;
+  }
+
+  .song-title {
+      font-size: 18px;
+      text-align: center;
+      max-width: 300px;
+      word-wrap: break-word;
+      height: 3em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .song-list {
+      list-style-type: none;
+      padding: 0;
+      width: calc(100% - 40px);
+      max-height: calc(100vh - 240px);
+      overflow-y: auto;
+      margin: 20px auto;
+  }
+
+  .song-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+  }
+
+  .song-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-right: 10px;
+  }
+
+  .song-item span {
+      font-size: 18px;
+  }
+
+  .share-button {
+      background-color: #FF2E98;
+      color: white;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
+      display: none;
+  }
+
+  ::-webkit-scrollbar {
+      width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+      background-color: #333;
+  }
+
+  ::-webkit-scrollbar-thumb {
+      background-color: #FF2E98;
+      border-radius: 4px;
+  }
+    @media screen and (max-width: 600px) {
+      .comparison-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow-y: auto;
+        padding: 0px;
+      }
+
+      .song-option {
+        margin-bottom: 0px;
+      }
+
+      .album-cover {
+        width: 250px;
+        height: 250px;
+      }
+
+      .song-title {
+        max-width: 200px;
+        font-size: 16px;
+        height: 3em;
+        margin-top: -20px;
+      }
+    }
+  </style>
+  <script>
+    async function getToken(clientId, clientSecret) {
+      const authString = clientId + ":" + clientSecret;
+      const authBytes = btoa(authString);
+      const url = "https://accounts.spotify.com/api/token";
+      const headers = {
+        "Authorization": "Basic " + authBytes,
+        "Content-Type": "application/x-www-form-urlencoded"
+      };
+      const data = "grant_type=client_credentials";
+
+      try {
+        const result = await axios.post(url, data, { headers });
+        return result.data.access_token;
+      } catch (error) {
+        console.error("Error getting token:", error);
+        return null;
+      }
+    }
+
+    function getAuthHeader(token) {
+      return { "Authorization": "Bearer " + token };
+    }
+
+    async function searchForArtist(token, artistName) {
+      const url = "https://api.spotify.com/v1/search";
+      const query = `?q=${encodeURIComponent(artistName)}&type=artist&limit=1`;
+      const queryUrl = url + query;
+      const headers = getAuthHeader(token);
+
+      try {
+        const result = await axios.get(queryUrl, { headers });
+        const jsonResult = result.data.artists.items;
+        if (jsonResult.length === 0) {
+          console.log("No artist with this name exists...");
+          return null;
+        }
+        return jsonResult[0].id;
+      } catch (error) {
+        console.error("Error searching for artist:", error);
+        return null;
+      }
+    }
+
+    async function getAlbumsByArtist(token, artistId) {
+      const albums = [];
+      const url = `https://api.spotify.com/v1/artists/${artistId}/albums`;
+      const headers = getAuthHeader(token);
+
+      try {
+        let result = await axios.get(url, { headers });
+        let jsonResult = result.data.items;
+        while (jsonResult) {
+          albums.push(...jsonResult);
+          const nextPage = result.data.next;
+          if (nextPage) {
+            result = await axios.get(nextPage, { headers });
+            jsonResult = result.data.items;
+          } else {
+            break;
+          }
+        }
+        return albums;
+      } catch (error) {
+        console.error("Error getting albums by artist:", error);
+        return [];
+      }
+    }
+
+    async function getTracksFromAlbums(token, artistId, albumIds) {
+      const tracks = [];
+      const trackInfo = new Map();
+
+      for (const albumId of albumIds) {
+        const url = `https://api.spotify.com/v1/albums/${albumId}`;
+        const headers = getAuthHeader(token);
+
+        try {
+          const albumResult = await axios.get(url, { headers });
+          const albumData = albumResult.data;
+          const trackUrl = `${url}/tracks`;
+          const trackResult = await axios.get(trackUrl, { headers });
+          const albumTracks = trackResult.data.items;
+
+          for (const track of albumTracks) {
+            if (track.artists.some(artist => artist.id === artistId)) {
+              const trackName = track.name;
+              const originalTrackName = trackName.replace(/\s*[\(\-].*$/, '').trim();
+              const albumCoverUrl = albumData.images && albumData.images.length > 0 ? albumData.images[0].url : null;
+
+              if (!trackInfo.has(originalTrackName)) {
+                trackInfo.set(originalTrackName, {
+                  name: trackName,
+                  albumCover: albumCoverUrl
+                });
+              } else if (trackName === originalTrackName) {
+                trackInfo.set(originalTrackName, {
+                  name: trackName,
+                  albumCover: albumCoverUrl
+                });
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error getting tracks from album:", error);
+        }
+      }
+
+      tracks.push(...trackInfo.values());
+      return tracks;
+    }
+
+    function displaySongComparison(song1, song2) {
+      const comparisonContainer = document.getElementById("comparisonContainer");
+      comparisonContainer.innerHTML = `
+        <div class="song-option" data-song="1">
+          <img class="album-cover" src="${song1.albumCover}" alt="Album Cover">
+          <div class="song-title">${song1.name}</div>
+        </div>
+        <div class="song-option" data-song="2">
+          <img class="album-cover" src="${song2.albumCover}" alt="Album Cover">
+          <div class="song-title">${song2.name}</div>
+        </div>
+      `;
+    }
+
+    function getPreference() {
+      return new Promise((resolve) => {
+        const songOptions = document.querySelectorAll(".song-option");
+        songOptions.forEach((option) => {
+          option.addEventListener("click", () => {
+            const preference = option.getAttribute("data-song");
+            resolve(preference);
+          });
+        });
+      });
+    }
+
+    function updateProgressBar(comparisonCount, totalComparisons) {
+      const progress = (comparisonCount / totalComparisons) * 100;
+      const progressBar = document.querySelector(".progress");
+      if (progressBar) {
+        progressBar.style.width = `${progress}%`;
+      }
+    }
+
+    async function searchArtist() {
+      const songList = document.getElementById("songList");
+      songList.innerHTML = "";
+      const artistName = document.getElementById("artistName").value;
+      const clientId = "9dc7e7d1d67841629f659b182caa2f5e";
+      const clientSecret = "590ae438b50a4d6d896e39aeb2807e56";
+
+      const token = await getToken(clientId, clientSecret);
+      const artistId = await searchForArtist(token, artistName);
+      const artistAlbums = await getAlbumsByArtist(token, artistId);
+      const albumIds = artistAlbums.map(album => album.id);
+      const allSongs = await getTracksFromAlbums(token, artistId, albumIds);
+
+      const artistInfo = await getArtistInfo(token, artistId);
+
+      showProgressBar(artistInfo.name);
+
+      const rankedSongs = await compareSongs(allSongs);
+
+      displayRankedSongs(rankedSongs, artistInfo);
+    }
+
+    async function getArtistInfo(token, artistId) {
+      const url = `https://api.spotify.com/v1/artists/${artistId}`;
+      const headers = getAuthHeader(token);
+
+      try {
+        const result = await axios.get(url, { headers });
+        const artistData = result.data;
+        const name = artistData.name;
+        const imageUrl = artistData.images && artistData.images.length > 0 ? artistData.images[0].url : null;
+        return { name, imageUrl };
+      } catch (error) {
+        console.error("Error getting artist info:", error);
+        return { name: "", imageUrl: null };
+      }
+    }
+
+    async function compareSongs(songs) {
+      const n = songs.length;
+      const ratings = new Array(n).fill(1000);
+      let comparisonCount = 0;
+      const totalComparisons = Math.min(30, (n * (n - 1)) / 2);
+
+      while (comparisonCount < totalComparisons) {
+        const [song1Index, song2Index] = getRandomPair(n);
+        const song1 = songs[song1Index];
+        const song2 = songs[song2Index];
+        displaySongComparison(song1, song2);
+        const preference = await getPreference();
+        updateRatings(ratings, song1Index, song2Index, preference);
+        comparisonCount++;
+        updateProgressBar(comparisonCount, totalComparisons);
+      }
+
+      const rankedSongs = songs.map((song, index) => ({ ...song, rating: ratings[index] }));
+      rankedSongs.sort((a, b) => b.rating - a.rating);
+
+      return rankedSongs;
+    }
+
+    function getRandomPair(n) {
+      const song1Index = Math.floor(Math.random() * n);
+      let song2Index = Math.floor(Math.random() * n);
+      while (song2Index === song1Index) {
+        song2Index = Math.floor(Math.random() * n);
+      }
+      return [song1Index, song2Index];
+    }
+
+    function updateRatings(ratings, song1Index, song2Index, preference) {
+      const k = 32;
+      const song1Rating = ratings[song1Index];
+      const song2Rating = ratings[song2Index];
+      const expectedScore1 = 1 / (1 + 10 ** ((song2Rating - song1Rating) / 400));
+      const expectedScore2 = 1 / (1 + 10 ** ((song1Rating - song2Rating) / 400));
+      const actualScore1 = preference === "1" ? 1 : 0;
+      const actualScore2 = preference === "2" ? 1 : 0;
+      ratings[song1Index] += k * (actualScore1 - expectedScore1);
+      ratings[song2Index] += k * (actualScore2 - expectedScore2);
+    }
+
+    async function displayRankedSongs(rankedSongs, artistInfo) {
+      const songList = document.getElementById("songList");
+      songList.innerHTML = "";
+
+      const artistItem = document.createElement("li");
+      artistItem.className = "song-item";
+      artistItem.innerHTML = `
+          <img src="${artistInfo.imageUrl}" alt="Artist Profile Picture" style="border-radius: 50%;">
+          <span>My ${artistInfo.name} rankings! (pcollect.app/rank)</span>
+      `;
+
+      songList.appendChild(artistItem);
+
+      rankedSongs.forEach((song, index) => {
+        const listItem = document.createElement("li");
+        listItem.className = "song-item";
+        listItem.innerHTML = `
+          <img src="${song.albumCover}" alt="Album Cover">
+          <span>${index + 1}. ${song.name}</span>
+        `;
+        songList.appendChild(listItem);
+      });
+
+      const comparisonContainer = document.getElementById("comparisonContainer");
+      comparisonContainer.innerHTML = "";
+
+      const shareButton = document.getElementById("shareButton");
+      shareButton.style.display = "block";
+
+      showSearchBar();
+    }
+
+    function showProgressBar(artistName) {
+      const searchProgressBar = document.querySelector(".search-progress-bar");
+      searchProgressBar.innerHTML = `
+        <div class="progress"></div>
+        <div class="artist-name">${artistName}</div>
+      `;
+    }
+
+    function showSearchBar() {
+      const searchProgressBar = document.querySelector(".search-progress-bar");
+      searchProgressBar.innerHTML = '<input type="text" id="artistName" class="search-input" placeholder="Enter artist name" autocomplete="off"><button id="searchButton" class="search-button">Rank!</button>';
+
+      const searchButton = document.getElementById("searchButton");
+      searchButton.addEventListener("click", function() {
+        const shareButton = document.getElementById("shareButton");
+        shareButton.style.display = "none";
+        searchArtist();
+      });
+    }
+  </script>
+</head>
+  <body>
+    <div class="header">
+      <div class="search-progress-bar">
+        <input type="text" id="artistName" class="search-input" placeholder="Enter artist name" autocomplete="off">
+        <button id="searchButton" class="search-button">Rank!</button>
+      </div>
+      <div class="artist-info"></div>
+    </div>
+    <div id="comparisonContainer" class="comparison-container"></div>
+    <ul id="songList" class="song-list"></ul>
+    <button id="shareButton" class="share-button">Share</button>
+    <script>
+      const searchButton = document.getElementById("searchButton");
+      searchButton.addEventListener("click", function() {
+        searchArtist();
+      });
+    </script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>
+      function captureSongList() {
+        const songList = document.getElementById("songList");
+        const originalHeight = songList.style.height;
+        const originalOverflow = songList.style.overflowY;
+        const originalMaxHeight = songList.style.maxHeight;
+
+        songList.style.height = "auto";
+        songList.style.overflowY = "visible";
+        songList.style.maxHeight = "none";
+
+        const fixedWidth = 500; 
+        const leftPadding = 5;
+        const rightPadding = 7;
+        const totalWidth = fixedWidth + leftPadding + rightPadding;
+
+        html2canvas(songList, {
+          backgroundColor: "#000",
+          scale: 2,
+          useCORS: true,
+          width: totalWidth,
+          x: -leftPadding,
+          onclone: function (clonedDoc) {
+            const clonedSongList = clonedDoc.getElementById("songList");
+            clonedSongList.style.height = "auto";
+            clonedSongList.style.overflowY = "visible";
+            clonedSongList.style.maxHeight = "none";
+            clonedSongList.style.width = totalWidth + "px";
+            clonedSongList.style.paddingLeft = leftPadding + "px";
+            clonedSongList.style.paddingTop = "10px";
+            clonedSongList.style.paddingBottom = "3px";
+          }
+        }).then(function(canvas) {
+          if (navigator.share && isMobileDevice()) {
+            canvas.toBlob(function(blob) {
+              const file = new File([blob], "song_rankings.png", { type: "image/png" });
+              navigator.share({
+                files: [file],
+                title: "Song Rankings",
+                text: "Check out my song rankings!",
+              });
+            });
+          } else {
+            canvas.toBlob(function(blob) {
+              saveAs(blob, "song_rankings.png");
+            });
+          }
+
+          songList.style.height = originalHeight;
+          songList.style.overflowY = originalOverflow;
+          songList.style.maxHeight = originalMaxHeight;
+        });
+      }
+
+
+      function isMobileDevice() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      }
+
+      const shareButton = document.getElementById("shareButton");
+      shareButton.addEventListener("click", captureSongList);
+
+       document.addEventListener('touchmove', function(event) {
+           if (event.scale !== 1) { 
+               event.preventDefault(); 
+           }
+       }, { passive: false });  
+    </script>
+  </body>
+</html> 
