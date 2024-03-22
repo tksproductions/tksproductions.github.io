@@ -42,16 +42,17 @@
       overflow: hidden;
   }
 
-  .search-input {
-      flex: 1;
-      height: 100%;
-      background-color: transparent;
-      border: none;
-      color: white;
-      font-size: 18px;
-      padding: 0 20px;
-      box-sizing: border-box;
-  }
+    .search-input {
+        flex: 1;
+        height: 100%;
+        background-color: transparent;
+        border: none;
+        color: white;
+        font-size: 18px;
+        padding: 0 20px;
+        font-weight: bold;
+        box-sizing: border-box;
+    }
 
   .search-button {
       height: 100%;
@@ -445,7 +446,7 @@
       const artistItem = document.createElement("li");
       artistItem.className = "song-item";
       artistItem.innerHTML = `
-          <img src="${artistInfo.imageUrl}" alt="Artist Profile Picture" style="border-radius: 50%;">
+          <img src="${artistInfo.imageUrl}" alt="Artist Profile Picture" style="border-radius: 50%; border: 3px solid #FF2E98;">
           <span">My ${artistInfo.name} song rankings!</span>
           <br><span style="color: #FF2E98; font-size: 15px;">pcollect.app/rank</span>`;
 
