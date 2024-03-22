@@ -156,6 +156,7 @@
     align-items: center;
     margin-bottom: 10px;
     padding: 10px;
+    font-size: 20px;
     border-radius: 8px;
     background-color: #222;
     transition: background-color 0.3s ease;
@@ -207,8 +208,36 @@
     border-radius: 5px;
   }
 
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #FF2E98;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      visibility: hidden;
+    }
+
   @media screen and (max-width: 600px) {
-  
+
     .search-button {
       padding: 0 15px;
     }
@@ -380,6 +409,8 @@
     }
 
     async function searchArtist(artistName = null) {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      loadingOverlay.style.visibility = 'visible';
       const songList = document.getElementById("songList");
       songList.innerHTML = "";
       if (!artistName) {
@@ -395,11 +426,9 @@
       const allSongs = await getTracksFromAlbums(token, artistId, albumIds);
 
       const artistInfo = await getArtistInfo(token, artistId);
-
+      loadingOverlay.style.visibility = 'hidden';
       showProgressBar(artistInfo.name);
-
       const rankedSongs = await compareSongs(allSongs);
-
       displayRankedSongs(rankedSongs, artistInfo);
     }
 
@@ -499,7 +528,7 @@
       artistItem.innerHTML = `
           <img src="${artistInfo.imageUrl}" alt="Artist Profile Picture" style="border-radius: 50%; border: 3px solid #FF2E98;">
           <span">My ${artistInfo.name} ranks!</span>
-          <br><span style="color: #FF2E98; font-size: 15px;">pcollect.app/rank</span>`;
+          <br><span style="color: #FF2E98; font-size: 21px;">pcollect.app/rank</span>`;
 
       songList.appendChild(artistItem);
 
@@ -555,6 +584,10 @@
   </script>
 </head>
   <body onload="checkUrlAndSearch()">
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="spinner"></div>
+    </div>
+
     <div class="header">
       <div class="search-progress-bar">
         <input type="text" id="artistName" class="search-input" placeholder="Enter group name" autocomplete="off">
