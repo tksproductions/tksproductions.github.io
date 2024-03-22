@@ -528,7 +528,7 @@
       artistItem.innerHTML = `
           <img src="${artistInfo.imageUrl}" alt="Artist Profile Picture" style="border-radius: 50%; border: 3px solid #FF2E98;">
           <span">My ${artistInfo.name} ranks!</span>
-          <br><span style="color: #FF2E98; font-size: 21px;">pcollect.app/rank</span>`;
+          <br><span style="color: #FF2E98;">pcollect.app/rank</span>`;
 
       songList.appendChild(artistItem);
 
@@ -609,58 +609,53 @@
     <script>
       function captureSongList() {
         const songList = document.getElementById("songList");
-        const originalStyles = {
-          height: songList.style.height,
-          width: songList.style.width,
-          overflowY: songList.style.overflowY,
-          maxHeight: songList.style.maxHeight,
-          columnCount: songList.style.columnCount
-        };
+
+        const originalHeight = songList.style.height;
+        const originalOverflow = songList.style.overflowY;
+        const originalMaxHeight = songList.style.maxHeight;
+        const originalDisplay = songList.style.display;
+        const originalColumnCount = songList.style.columnCount;
+
+        songList.style.height = "auto";
+        songList.style.overflowY = "visible";
+        songList.style.maxHeight = "none";
+        songList.style.display = "block";
+        songList.style.columnCount = "auto";
 
         const aspectRatio = 9 / 16;
-        const listHeight = songList.scrollHeight;
-        const requiredWidth = listHeight * aspectRatio;
+        const songListWidth = songList.offsetWidth;
+        const songListHeight = songListWidth / aspectRatio;
+        const columnWidth = songList.offsetWidth;
+        const columnCount = Math.ceil(songList.scrollHeight / songListHeight);
 
-        const item = songList.querySelector('.song-item'); 
-        const itemWidth = item ? item.offsetWidth : 0;
-        const columns = Math.max(1, Math.floor(requiredWidth / itemWidth));
-
-        Object.assign(songList.style, {
-          columnCount: columns,
-          width: `${columns * itemWidth}px`,
-          overflowY: "visible",
-          maxHeight: "none"
-        });
+        songList.style.columnCount = columnCount;
+        songList.style.width = `${columnWidth * columnCount}px`;
 
         html2canvas(songList, {
           backgroundColor: "#000",
-          scale: 1,
+          scale: 2,
           useCORS: true,
-          width: columns * itemWidth,
-          windowHeight: listHeight,
           onclone: function (clonedDoc) {
             const clonedSongList = clonedDoc.getElementById("songList");
-            Object.assign(clonedSongList.style, {
-              columnCount: columns,
-              width: `${columns * itemWidth}px`,
-              overflowY: "visible",
-              maxHeight: "none",
-              paddingRight: "10px",
-              paddingLeft: "10px",
-              paddingTop: "10px",
-              paddingBottom: "1px"
-            });
+            clonedSongList.style.height = "auto";
+            clonedSongList.style.overflowY = "visible";
+            clonedSongList.style.maxHeight = "none";
+            clonedSongList.style.paddingRight = "10px";
+            clonedSongList.style.paddingLeft = "10px";
+            clonedSongList.style.paddingTop = "10px";
+            clonedSongList.style.paddingBottom = "1px";
+            clonedSongList.style.display = "block";
+            clonedSongList.style.columnCount = columnCount;
+            clonedSongList.style.width = `${columnWidth * columnCount}px`;
           }
         }).then(function(canvas) {
-          Object.assign(songList.style, originalStyles);
-
           if (navigator.share && isMobileDevice()) {
             canvas.toBlob(function(blob) {
               const file = new File([blob], "song_rankings.png", { type: "image/png" });
               navigator.share({
                 files: [file],
                 title: "Song Rankings",
-                text: "Check out my song rankings!"
+                text: "Check out my song rankings!",
               });
             });
           } else {
@@ -668,6 +663,13 @@
               saveAs(blob, "song_rankings.png");
             });
           }
+
+          songList.style.height = originalHeight;
+          songList.style.overflowY = originalOverflow;
+          songList.style.maxHeight = originalMaxHeight;
+          songList.style.display = originalDisplay;
+          songList.style.columnCount = originalColumnCount;
+          songList.style.width = "auto";
         });
       }
 
