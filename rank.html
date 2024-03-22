@@ -33,7 +33,7 @@
       width: 100%;
       height: 40px;
       background-color: transparent;
-      border: 2px solid white;
+      border: 3px solid white;
       border-radius: 20px;
       display: flex;
       align-items: center;
@@ -61,7 +61,7 @@
       font-size: 18px;
       padding: 0 20px;
       cursor: pointer;
-      border-left: 2px solid white;
+      border-left: 3px solid white;
   }
 
   .progress {
@@ -107,6 +107,7 @@
       object-fit: cover;
       border-radius: 4px;
       margin-bottom: 10px;
+      border: 5px solid #FF2E98;
   }
 
   .song-title {
@@ -284,17 +285,12 @@
           for (const track of albumTracks) {
             if (track.artists.some(artist => artist.id === artistId)) {
               const trackName = track.name;
-              const originalTrackName = trackName.replace(/\s*[\(\-].*$/, '').trim();
+              const originalTrackName = trackName.replace(/\s+[\(\-].*$/, '').trim();
               const albumCoverUrl = albumData.images && albumData.images.length > 0 ? albumData.images[0].url : null;
 
-              if (!trackInfo.has(originalTrackName)) {
+              if (!trackInfo.has(originalTrackName) || trackName === originalTrackName) {
                 trackInfo.set(originalTrackName, {
-                  name: trackName,
-                  albumCover: albumCoverUrl
-                });
-              } else if (trackName === originalTrackName) {
-                trackInfo.set(originalTrackName, {
-                  name: trackName,
+                  name: originalTrackName,
                   albumCover: albumCoverUrl
                 });
               }
@@ -308,7 +304,7 @@
       tracks.push(...trackInfo.values());
       return tracks;
     }
-
+    
     function displaySongComparison(song1, song2) {
       const comparisonContainer = document.getElementById("comparisonContainer");
       comparisonContainer.innerHTML = `
@@ -384,18 +380,22 @@
     async function compareSongs(songs) {
       const n = songs.length;
       const ratings = new Array(n).fill(1000);
-      let comparisonCount = 0;
-      const totalComparisons = Math.min(30, (n * (n - 1)) / 2);
+      const maxComparisons = n > 50 ? 100 : Math.min(30, (n * (n - 1)) / 2);
+      const comparisonCounts = new Array(n).fill(0);
 
-      while (comparisonCount < totalComparisons) {
-        const [song1Index, song2Index] = getRandomPair(n);
+      let comparisonCount = 0;
+
+      while (comparisonCount < maxComparisons) {
+        const [song1Index, song2Index] = getWeightedRandomPair(n, comparisonCounts);
         const song1 = songs[song1Index];
         const song2 = songs[song2Index];
         displaySongComparison(song1, song2);
         const preference = await getPreference();
-        updateRatings(ratings, song1Index, song2Index, preference);
+        updateRatings(ratings, song1Index, song2Index, preference, comparisonCount);
         comparisonCount++;
-        updateProgressBar(comparisonCount, totalComparisons);
+        comparisonCounts[song1Index]++;
+        comparisonCounts[song2Index]++;
+        updateProgressBar(comparisonCount, maxComparisons);
       }
 
       const rankedSongs = songs.map((song, index) => ({ ...song, rating: ratings[index] }));
@@ -404,17 +404,30 @@
       return rankedSongs;
     }
 
-    function getRandomPair(n) {
-      const song1Index = Math.floor(Math.random() * n);
-      let song2Index = Math.floor(Math.random() * n);
-      while (song2Index === song1Index) {
-        song2Index = Math.floor(Math.random() * n);
+    function getWeightedRandomPair(n, comparisonCounts) {
+      const weights = comparisonCounts.map((count) => 1 / (count + 1));
+      const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+      const randomWeight = Math.random() * totalWeight;
+      let weightSum = 0;
+      let song1Index;
+      for (let i = 0; i < n; i++) {
+        weightSum += weights[i];
+        if (weightSum >= randomWeight) {
+          song1Index = i;
+          break;
+        }
       }
+      let song2Index;
+      do {
+        song2Index = Math.floor(Math.random() * n);
+      } while (song2Index === song1Index);
       return [song1Index, song2Index];
     }
 
-    function updateRatings(ratings, song1Index, song2Index, preference) {
-      const k = 32;
+    function updateRatings(ratings, song1Index, song2Index, preference, comparisonCount) {
+      const maxK = 32;
+      const minK = 16;
+      const k = maxK - (comparisonCount / 100) * (maxK - minK);
       const song1Rating = ratings[song1Index];
       const song2Rating = ratings[song2Index];
       const expectedScore1 = 1 / (1 + 10 ** ((song2Rating - song1Rating) / 400));
@@ -433,8 +446,8 @@
       artistItem.className = "song-item";
       artistItem.innerHTML = `
           <img src="${artistInfo.imageUrl}" alt="Artist Profile Picture" style="border-radius: 50%;">
-          <span>My ${artistInfo.name} rankings! (pcollect.app/rank)</span>
-      `;
+          <span">My ${artistInfo.name} song rankings!</span>
+          <br><span style="color: #FF2E98; font-size: 15px;">pcollect.app/rank</span>`;
 
       songList.appendChild(artistItem);
 
@@ -526,7 +539,7 @@
             clonedSongList.style.maxHeight = "none";
             clonedSongList.style.width = totalWidth + "px";
             clonedSongList.style.paddingLeft = leftPadding + "px";
-            clonedSongList.style.paddingTop = "10px";
+            clonedSongList.style.paddingTop = "12px";
             clonedSongList.style.paddingBottom = "3px";
           }
         }).then(function(canvas) {
