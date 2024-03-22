@@ -311,7 +311,7 @@
       tracks.push(...trackInfo.values());
       return tracks;
     }
-    
+
     function displaySongComparison(song1, song2) {
       const comparisonContainer = document.getElementById("comparisonContainer");
       comparisonContainer.innerHTML = `
@@ -388,17 +388,27 @@
 
     async function compareSongs(songs) {
       const n = songs.length;
+      const maxUniquePairs = n * (n - 1) / 2;
+      const maxComparisons = Math.min(Math.ceil(n * Math.log2(n)), 100, maxUniquePairs);
       const ratings = new Array(n).fill(1000);
-      const maxComparisons = n > 50 ? 100 : Math.min(30, (n * (n - 1)) / 2);
       const comparisonCounts = new Array(n).fill(0);
+      const comparedPairs = new Set();
 
       let comparisonCount = 0;
 
       while (comparisonCount < maxComparisons) {
-        const [song1Index, song2Index] = getWeightedRandomPair(n, comparisonCounts);
+        let pair;
+        do {
+          pair = getWeightedRandomPair(n, comparisonCounts);
+        } while (comparedPairs.has(pair.toString()));
+
+        comparedPairs.add(pair.toString());
+
+        const [song1Index, song2Index] = pair;
         const song1 = songs[song1Index];
         const song2 = songs[song2Index];
         displaySongComparison(song1, song2);
+
         const preference = await getPreference();
         updateRatings(ratings, song1Index, song2Index, preference, comparisonCount);
         comparisonCount++;
