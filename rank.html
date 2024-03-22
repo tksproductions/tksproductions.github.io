@@ -576,36 +576,58 @@
     <script>
       function captureSongList() {
         const songList = document.getElementById("songList");
-        const originalHeight = songList.style.height;
-        const originalOverflow = songList.style.overflowY;
-        const originalMaxHeight = songList.style.maxHeight;
+        const originalStyles = {
+          height: songList.style.height,
+          width: songList.style.width,
+          overflowY: songList.style.overflowY,
+          maxHeight: songList.style.maxHeight,
+          columnCount: songList.style.columnCount
+        };
 
-        songList.style.height = "auto";
-        songList.style.overflowY = "visible";
-        songList.style.maxHeight = "none";
+        const aspectRatio = 9 / 16;
+        const listHeight = songList.scrollHeight;
+        const requiredWidth = listHeight * aspectRatio;
+
+        const item = songList.querySelector('.song-item'); 
+        const itemWidth = item ? item.offsetWidth : 0;
+        const columns = Math.max(1, Math.floor(requiredWidth / itemWidth));
+
+        Object.assign(songList.style, {
+          columnCount: columns,
+          width: `${columns * itemWidth}px`,
+          overflowY: "visible",
+          maxHeight: "none"
+        });
 
         html2canvas(songList, {
           backgroundColor: "#000",
-          scale: 2,
+          scale: 1,
           useCORS: true,
+          width: columns * itemWidth,
+          windowHeight: listHeight,
           onclone: function (clonedDoc) {
             const clonedSongList = clonedDoc.getElementById("songList");
-            clonedSongList.style.height = "auto";
-            clonedSongList.style.overflowY = "visible";
-            clonedSongList.style.maxHeight = "none";
-            clonedSongList.style.paddingRight = "10px";
-            clonedSongList.style.paddingLeft = "10px";
-            clonedSongList.style.paddingTop = "10px";
-            clonedSongList.style.paddingBottom = "1px";
+            Object.assign(clonedSongList.style, {
+              columnCount: columns,
+              width: `${columns * itemWidth}px`,
+              overflowY: "visible",
+              maxHeight: "none",
+              paddingRight: "10px",
+              paddingLeft: "10px",
+              paddingTop: "10px",
+              paddingBottom: "1px"
+            });
           }
         }).then(function(canvas) {
+          Object.assign(songList.style, originalStyles);
+
           if (navigator.share && isMobileDevice()) {
             canvas.toBlob(function(blob) {
               const file = new File([blob], "song_rankings.png", { type: "image/png" });
               navigator.share({
                 files: [file],
                 title: "Song Rankings",
-                text: "Check out my song rankings!",
+                text: "Check out my song rankings!"
               });
             });
           } else {
@@ -613,10 +635,6 @@
               saveAs(blob, "song_rankings.png");
             });
           }
-
-          songList.style.height = originalHeight;
-          songList.style.overflowY = originalOverflow;
-          songList.style.maxHeight = originalMaxHeight;
         });
       }
 
