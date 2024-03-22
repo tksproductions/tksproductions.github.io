@@ -54,16 +54,19 @@
         box-sizing: border-box;
     }
 
-  .search-button {
+    .search-button {
       height: 100%;
       background-color: transparent;
       border: none;
       color: white;
       font-size: 18px;
-      padding: 0 20px;
+      padding: 0 20px 0 20px;
       cursor: pointer;
       border-left: 3px solid white;
-  }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
   .progress {
       position: absolute;
@@ -174,6 +177,9 @@
       border-radius: 4px;
   }
     @media screen and (max-width: 600px) {
+      .search-button {
+        padding: 0 10px;
+      }
       .comparison-container {
         flex-direction: column;
         align-items: center;
@@ -483,7 +489,7 @@
 
     function showSearchBar() {
       const searchProgressBar = document.querySelector(".search-progress-bar");
-      searchProgressBar.innerHTML = '<input type="text" id="artistName" class="search-input" placeholder="Enter artist name" autocomplete="off"><button id="searchButton" class="search-button">Rank!</button>';
+      searchProgressBar.innerHTML = '<input type="text" id="artistName" class="search-input" placeholder="Enter group name" autocomplete="off"><button id="searchButton" class="search-button">Rank!</button>';
 
       const searchButton = document.getElementById("searchButton");
       searchButton.addEventListener("click", function() {
@@ -536,8 +542,8 @@
         songList.style.maxHeight = "none";
 
         const fixedWidth = 500; 
-        const leftPadding = 5;
-        const rightPadding = 7;
+        const leftPadding = 7;
+        const rightPadding = 2;
         const totalWidth = fixedWidth + leftPadding + rightPadding;
 
         html2canvas(songList, {
