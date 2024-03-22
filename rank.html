@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
-  <title>Spotify Artist Search</title>
+  <title>PCollect</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <style>
@@ -340,10 +340,12 @@
       }
     }
 
-    async function searchArtist() {
+    async function searchArtist(artistName = null) {
       const songList = document.getElementById("songList");
       songList.innerHTML = "";
-      const artistName = document.getElementById("artistName").value;
+      if (!artistName) {
+        artistName = document.getElementById("artistName").value;
+      }
       const clientId = "9dc7e7d1d67841629f659b182caa2f5e";
       const clientSecret = "590ae438b50a4d6d896e39aeb2807e56";
 
@@ -490,12 +492,23 @@
         searchArtist();
       });
     }
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+    function checkUrlAndSearch() {
+      const artistParam = getQueryParam('group');
+      if (artistParam) {
+        document.getElementById("artistName").value = artistParam;
+        searchArtist(artistParam);
+      }
+    }
   </script>
 </head>
-  <body>
+  <body onload="checkUrlAndSearch()">
     <div class="header">
       <div class="search-progress-bar">
-        <input type="text" id="artistName" class="search-input" placeholder="Enter artist name" autocomplete="off">
+        <input type="text" id="artistName" class="search-input" placeholder="Enter group name" autocomplete="off">
         <button id="searchButton" class="search-button">Rank!</button>
       </div>
       <div class="artist-info"></div>
@@ -564,7 +577,6 @@
           songList.style.maxHeight = originalMaxHeight;
         });
       }
-
 
       function isMobileDevice() {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
