@@ -112,7 +112,7 @@
          transition: border-color 0.3s, opacity 0.3s;
          }
          #carousel video {
-           border: 3px solid #FFFFFF;
+         border: 3px solid #FFFFFF;
          }
          #carousel img:hover {
          border-color: #FFFFFF;
@@ -248,17 +248,19 @@
          .qr-code {
          display: flex;
          position: relative;
-         flex-direction: column;
-         align-items: flex-start;
-         gap: 50px;
+         flex-direction: row;
+         align-items: center;
+         justify-content: space-between;
+         gap: 5px;
+         margin-bottom: 6px;
+         margin-top: 10px;
          }
          .qr-code img {
          width: 100%;
-         max-width: 250px;
+         max-width: 180px;
          }
          #feedback, .qr-code {
          flex: 1;
-         max-width: 32%;
          }
          #desktop-appstore-button {
          display: block;
@@ -325,43 +327,58 @@
          <div id="slogan">Catalog your K-pop collection!</div>
       </header>
       <div style="text-align:center; padding: 20px 0;">
-         <div id="downloadCount">20,000+ Downloads</div>
-         <a href="https://apps.apple.com/app/pcollect-kpop-photocards/id6448884412?itsct=apps_box_badge&amp;itscg=30200" class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 250px; height: 83px;">
+         <div id="downloadCount">Now in Android early access!</div>
+         <a href="https://apps.apple.com/app/pcollect-kpop-photocards/id6448884412?itsct=apps_box_badge&amp;itscg=30200" class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px;">
             <div>
-               <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store" style="border-radius: 13px; width: 250px; height: 83px;">
+               <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store" style="border-radius: 13px; width: 180px; height: 60px;">
             </div>
+         </a>
+         <a href='https://pcollect.app/android' class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px; position: relative;">
+            <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' style="width: 170px; height: 82px; object-fit: cover; object-position: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
+            <div style="position: absolute; top: 0; height: 11%; width: 100%; background-color: black;"></div>
+            <div style="position: absolute; bottom: 0; height: 11%; width: 100%; background-color: black;"></div>
          </a>
       </div>
       <div id="main-content">
          <div id="tapToAnimate">Tap to animate</div>
          <div id="carousel">
-           <div class="carousel-item">
+            <div class="carousel-item">
                <img src="images/1.png" class="carousel-image" alt="Screenshot 1">
                <video src="images/1.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
-           </div>
-            <div class="carousel-item">
-                <img src="images/2.png" class="carousel-image" alt="Screenshot 2">
-                <video src="images/2.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
             </div>
             <div class="carousel-item">
-                <img src="images/3.png" class="carousel-image" alt="Screenshot 3">
-                <video src="images/3.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
+               <img src="images/2.png" class="carousel-image" alt="Screenshot 2">
+               <video src="images/2.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
             </div>
             <div class="carousel-item">
-                <img src="images/4.png" class="carousel-image" alt="Screenshot 4">
-                <video src="images/4.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
+               <img src="images/3.png" class="carousel-image" alt="Screenshot 3">
+               <video src="images/3.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
+            </div>
+            <div class="carousel-item">
+               <img src="images/4.png" class="carousel-image" alt="Screenshot 4">
+               <video src="images/4.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
             </div>
          </div>
          <div id="feedback">
-            <div id="downloadCount2">20,000+ Downloads</div>
-            <div class="qr-code">
-               <div id="desktop-appstore-button">
-                  <a href="https://apps.apple.com/app/pcollect-kpop-photocards/id6448884412?itsct=apps_box_badge&amp;itscg=30200" class="appstore-button">
-                  <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store">
-                  </a>
-               </div>
-               <img src="images/qrcode.png" alt="QR Code" style="width:250px">
-            </div>
+           <!--<div id="downloadCount2">Now on Android!</div>-->
+           <div class="qr-code">
+             <div style="display: flex; flex-direction: column; align-items: center;">
+               <a href="https://apps.apple.com/app/pcollect-kpop-photocards/id6448884412?itsct=apps_box_badge&amp;itscg=30200" class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px;">
+                 <div>
+                   <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store" style="border-radius: 13px; width: 180px; height: 60px;">
+                 </div>
+               </a>
+               <img src="images/qrcode.png" alt="App Store QR Code" style="width: 180px; height: auto; margin-top: 10px;">
+             </div>
+             <div style="display: flex; flex-direction: column; align-items: center;">
+               <a href='https://pcollect.app/android' class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px; position: relative;">
+                 <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' style="width: 170px; height: 82px; object-fit: cover; object-position: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
+                 <div style="position: absolute; top: 0; height: 11%; width: 100%; background-color: black;"></div>
+                 <div style="position: absolute; bottom: 0; height: 11%; width: 100%; background-color: black;"></div>
+               </a>
+               <img src="images/qrcode.png" alt="Google Play QR Code" style="width: 180px; height: auto; margin-top: 10px;">
+             </div>
+           </div>
             <div class="iframe-crop">
                <iframe class="tally-iframe" data-tally-src="https://tally.so/embed/mY0rjv?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="80%" height="290" frameborder="0" marginheight="0" marginwidth="0" title="PCollect Feedback Form"></iframe>
                <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="pcollect" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF2D98" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
@@ -443,35 +460,35 @@
          }
          }
 
-       $(document).ready(function() {
-    var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+         $(document).ready(function() {
+         var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 
-    // Function to play video
-    function playVideo(video) {
-        pauseAllVideosExcept(video);
-        $(video).show().get(0).play();
-        $(video).siblings('img').hide();
-    }
+         // Function to play video
+         function playVideo(video) {
+         pauseAllVideosExcept(video);
+         $(video).show().get(0).play();
+         $(video).siblings('img').hide();
+         }
 
-    // Function to pause video
-    function pauseVideo(video) {
-        $(video).hide().get(0).pause();
-        $(video).siblings('img').show();
-        video.currentTime = 0;
-    }
+         // Function to pause video
+         function pauseVideo(video) {
+         $(video).hide().get(0).pause();
+         $(video).siblings('img').show();
+         video.currentTime = 0;
+         }
 
-    // Function to pause all videos except the currently playing one
-    function pauseAllVideosExcept(currentVideo) {
-        $('#carousel .carousel-item video').each(function() {
+         // Function to pause all videos except the currently playing one
+         function pauseAllVideosExcept(currentVideo) {
+         $('#carousel .carousel-item video').each(function() {
             if (this !== currentVideo) {
                 pauseVideo(this);
             }
-        });
-    }
+         });
+         }
 
-    if (isTouchDevice) {
-        // For touch devices (mobile, tablets)
-        $('#carousel .carousel-item').on('click', function(e) {
+         if (isTouchDevice) {
+         // For touch devices (mobile, tablets)
+         $('#carousel .carousel-item').on('click', function(e) {
             var video = $(this).find('video')[0];
 
             // Play or pause video based on its current state
@@ -480,18 +497,18 @@
             } else {
                 pauseVideo(video);
             }
-        });
-    } else {
-        // For non-touch devices (desktop)
-        $('#carousel .carousel-item').on('mouseenter', function() {
+         });
+         } else {
+         // For non-touch devices (desktop)
+         $('#carousel .carousel-item').on('mouseenter', function() {
             var video = $(this).find('video')[0];
             playVideo(video);
-        }).on('mouseleave', function() {
+         }).on('mouseleave', function() {
             var video = $(this).find('video')[0];
             pauseVideo(video);
-        });
-    }
-});
+         });
+         }
+         });
 
            $('#carousel').slick({
                dots: true,
@@ -537,8 +554,8 @@
 
                   const formattedTotalDownloads = totalDownloads.toLocaleString();
 
-                  downloadCount.innerText = `${formattedTotalDownloads} Downloads`;
-                  downloadCount2.innerText = `${formattedTotalDownloads} Downloads`;
+                  //downloadCount.innerText = `${formattedTotalDownloads} Downloads`;
+                  //downloadCount2.innerText = `${formattedTotalDownloads} Downloads`;
               }
 
               displayCount();
@@ -546,4 +563,4 @@
 
       </script>
    </body>
-</html> 
+</html>
