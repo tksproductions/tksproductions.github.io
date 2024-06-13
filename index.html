@@ -1,566 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-      <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-      <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-      <link rel="manifest" href="images/site.webmanifest">
-      <meta name="msapplication-TileColor" content="#da532c">
-      <meta name="theme-color" content="#000000">
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
-      <title>PCollect</title>
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-      <style>
-         @keyframes float {
-         0% {
-         transform: translateY(0px);
-         }
-         50% {
-         transform: translateY(-10px);
-         }
-         100% {
-         transform: translateY(0px);
-         }
-         }
-         ::-webkit-scrollbar {
-         display: none;
-         width: 0;
-         background: transparent;
-         }
-         body {
-         -ms-overflow-style: none;
-         scrollbar-width: none;
-         cursor: default;
-         -webkit-tap-highlight-color: rgba(0,0,0,0);
-         -webkit-touch-callout: none;
-         -webkit-overflow-scrolling: touch;
-         font-family: 'Poppins', sans-serif;
-         background-color: #000000;
-         color: #FFFFFF;
-         }
-         a:hover, footer img:hover{
-         border-color: #FFFFFF;
-         }
-         a, footer img {
-         transition: border-color 0.3s;
-         }
-         html {
-         scroll-behavior: smooth;
-         }
-         html, body {
-         overflow-x: hidden;
-         margin: 0;
-         padding: 0;
-         }
-         header {
-         margin-top: 0;
-         padding: 15px 0;
-         text-align: center;
-         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-         border-bottom: 2px solid #2d2d2d;
-         margin-bottom: 10px;
-         height: 120px;
-         top: 0;
-         left: 0;
-         width: 100%;
-         z-index: 1000;
-         }
-         header a {
-         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-         margin: 0 auto;
-         font-size: 40px;
-         color: #FFFFFF;
-         text-decoration: none;
-         font-weight: bold;
-         }
-         #slogan {
-         font-weight: 400;
-         color: #FF2D98;
-         margin-top: 5px;
-         font-size: 16px;
-         }
-         #downloadCount, #downloadCount2 {
-         font-weight: 500;
-         color: #FFFFFF;
-         font-size: 16px;
-         }
-         #downloadCount {
-         padding-bottom: 10px;
-         }
-         #tapToAnimate {
-         font-weight: 500;
-         color: #FFFFFF;
-         font-size: 16px;
-         text-align: center;
-         }
-         div[style*="text-align:center;"] {
-         display:none;
-         }
-         #carousel {
-         max-width: 90vw;
-         margin: 10px auto 0;
-         padding: 30px 0;
-         }
-         #carousel img, #carousel video {
-         max-height: 65vh;
-         width: auto;
-         display: block;
-         border: 3px solid #FF2D98;
-         border-radius: 8px;
-         margin: auto;
-         transition: border-color 0.3s, opacity 0.3s;
-         }
-         #carousel video {
-         border: 3px solid #FFFFFF;
-         }
-         #carousel img:hover {
-         border-color: #FFFFFF;
-         }
-         #carousel, #feedback, footer {
-         padding-top: 0px;
-         }
-         #feedback {
-         width: 80%;
-         margin: 30px auto;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         background-color: #000000;
-         border-radius: 8px;
-         padding: 30px;
-         box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
-         }
-         .tally-iframe {
-         position: relative;
-         top: -30px;
-         }
-         .appstore-button {
-         display: inline-block;
-         border: 3px solid #FF2D98;
-         overflow: hidden;
-         border-radius: 13px;
-         }
-         .appstore-button img {
-         transform: scale(1.05);
-         }
-         .iframe-crop {
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         width: 110%;
-         height: 200px;
-         overflow: hidden;
-         position: relative;
-         }
-         .iframe-crop div {
-         position: relative;
-         }
-         #feedback textarea:focus {
-         outline: none;
-         border-color: #FFFFFF;
-         }
-         footer {
-         background-color: #000000;
-         color: #FFFFFF;
-         text-align: center;
-         }
-         footer img {
-         border: 3px solid #FF2D98;
-         border-radius: 10px;
-         }
-         footer a {
-         color: #FF2D98;
-         text-decoration: none;
-         transition: color 0.2s;
-         }
-         footer a:hover, footer a:active {
-         color: #FFFFFF
-         }
-         @media only screen and (max-width: 1024px) {
-         #chatbotIcon {
-         border: 3px solid #FFFFFF;      
-         }
-         #downloadCount2 {
-         display:none;
-         }
-         .qr-code {
-         display: none;
-         }
-         #desktop-appstore-button {
-         display: none;  
-         }
-         div[style*="text-align:center;"] {
-         display:block;
-         padding: 40px 0;
-         }
-         #carousel {
-         max-width: 100vw;
-         }
-         #feedback {
-         width: 95%;
-         padding: 10px;
-         margin: 0 auto 30px;
-         }
-         }
-         @media only screen and (min-width: 1024px) {
-         #tapToAnimate {
-         display: none
-         }
-         .slick-prev {
-         display: none !important;
-         }
-         .slick-next {
-         display: block !important;
-         }
-         body .slick-slider .slick-prev:before, 
-         body .slick-slider .slick-next:before {
-         color: #FF2D98;
-         opacity: 1 !important;
-         font-size: 25px;
-         }
-         body .slick-slider .slick-prev:hover:before, 
-         body .slick-slider .slick-next:hover:before {
-         color: white;
-         }
-         .iframe-crop {
-         margin-top: 5px;
-         margin-bottom:20px;
-         }
-         body {
-         max-width: 1200px;
-         margin: 0 auto;
-         }
-         #main-content {
-         display: flex;
-         justify-content: space-between;
-         align-items: center;
-         gap: 0px;
-         }
-         #carousel {
-         flex: 1;
-         max-width: 60%;
-         }
-         #feedback {
-         flex: 1;
-         max-width: 35%;
-         }
-         .qr-code {
-         display: flex;
-         position: relative;
-         flex-direction: row;
-         align-items: center;
-         justify-content: space-between;
-         gap: 5px;
-         margin-bottom: 6px;
-         margin-top: 10px;
-         }
-         .qr-code img {
-         width: 100%;
-         max-width: 180px;
-         }
-         #feedback, .qr-code {
-         flex: 1;
-         }
-         #desktop-appstore-button {
-         display: block;
-         margin-bottom: 20px;
-         position: absolute;
-         top: 50%;
-         right: 50%;
-         transform: translateY(-50%) rotate(-90deg) scale(0.9);
-         margin-left: 20px;
-         }
-         #desktop-appstore-button a.appstore-button img {
-         width: 240px;
-         transform: scale(1.14) translateY(3px);
-         }
-         }
-         #chatbotIcon {
-         width: 60px;
-         height: 60px;
-         background-color: #FF2D98;
-         color: #FFF;
-         border-radius: 50%;
-         position: fixed;
-         right: 20px;
-         bottom: 20px;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         cursor: pointer;
-         z-index: 9999;
-         font-size: 25px;
-         border: 3px solid #FF2D98;
-         }
-         #chatbotIcon:hover {
-         border: 3px solid #FFFFFF;      
-         }
-         #chatbotModal {
-         width: 303px;
-         height: 400px;
-         position: fixed;
-         right: 20px;
-         bottom: 90px;
-         display: none;
-         z-index: 9998;
-         }
-         #chatbotModal iframe {
-         width: 100%;
-         height: 100%;
-         border: none;
-         border-radius: 10px;
-         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-         }
-      </style>
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
-      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-   </head>
-   <body>
-      <header>
-         <div class="logo-title-container" style="display: flex; align-items: center; justify-content: center; gap: 5px; width: fit-content; margin: 0 auto;">
-            <a style="background-image: url('images/pcollect.png'); background-size: 90px; background-position: -20px center; width: 60px; height: 80px; border-radius: 22%; display: block;"></a>
-            <a>PCollect</a>
-         </div>
-         <div id="slogan">Catalog your K-pop collection!</div>
-      </header>
-      <div style="text-align:center; padding: 20px 0;">
-         <div id="downloadCount">Now available on Android!</div>
-         <a href="https://apps.apple.com/app/pcollect-kpop-photocards/id6448884412?itsct=apps_box_badge&amp;itscg=30200" class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px;">
-            <div>
-               <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store" style="border-radius: 13px; width: 180px; height: 60px;">
-            </div>
-         </a>
-         <a href='https://play.google.com/store/apps/details?id=com.tksproductions.pcollect' class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px; position: relative;">
-            <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' style="width: 170px; height: 82px; object-fit: cover; object-position: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
-            <div style="position: absolute; top: 0; height: 11%; width: 100%; background-color: black;"></div>
-            <div style="position: absolute; bottom: 0; height: 11%; width: 100%; background-color: black;"></div>
-         </a>
+<head>
+   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+   <link rel="manifest" href="images/site.webmanifest">
+   <meta name="msapplication-TileColor" content="#da532c">
+   <meta name="theme-color" content="#000000">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+   <title>PCollect</title>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+   <style>
+   @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
+   ::-webkit-scrollbar { display: none; width: 0; background: 0 0; }
+   body { -ms-overflow-style: none; scrollbar-width: none; cursor: default; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-overflow-scrolling: touch; font-family: Poppins, sans-serif; background-color: #000; color: #fff; }
+   a:hover, footer img:hover { border-color: #fff; }
+   a, footer img { transition: border-color 0.3s; }
+   html { scroll-behavior: smooth; }
+   body, html { overflow-x: hidden; margin: 0; padding: 0; }
+   header { margin-top: 0; padding: 15px 0; text-align: center; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); border-bottom: 2px solid #2d2d2d; margin-bottom: 10px; height: 120px; top: 0; left: 0; width: 100%; z-index: 1000; }
+   header a { text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); margin: 0 auto; font-size: 40px; color: #fff; text-decoration: none; font-weight: 700; }
+   #slogan { font-weight: 400; color: #ff2d98; margin-top: 5px; font-size: 16px; }
+   #downloadCount { font-weight: 500; color: #fff; font-size: 16px; padding-bottom: 10px; }
+   div[style*="text-align:center;"] { display: none; }
+   #carousel { max-width: 90vw; margin: 10px auto 0; padding: 30px 0; display: flex; gap: 0; }
+   #carousel img { max-height: 65vh; width: auto; display: block; border: 3px solid #ff2d98; border-radius: 8px; margin: 0; transition: border-color 0.3s, opacity 0.3s; }
+   #carousel img:hover { border-color: #fff; }
+   #feedback { width: 80%; margin: 30px auto; display: flex; flex-direction: column; align-items: center; background-color: #000; border-radius: 8px; padding: 30px; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); }
+   .tally-iframe { position: relative; top: -30px; }
+   .appstore-button { display: inline-block; border: 3px solid #ff2d98; overflow: hidden; border-radius: 13px; }
+   .appstore-button img { transform: scale(1.05); }
+   .iframe-crop { display: flex; align-items: center; justify-content: center; width: 110%; height: 200px; overflow: hidden; position: relative; }
+   .iframe-crop div { position: relative; }
+   footer { background-color: #000; color: #fff; text-align: center; }
+   footer img { border: 3px solid #ff2d98; border-radius: 10px; }
+   footer a { color: #ff2d98; text-decoration: none; transition: color 0.2s; }
+   footer a:active, footer a:hover { color: #fff; }
+   @media only screen and (max-width: 1024px) { 
+      #downloadCount2 { display: none; }
+      .qr-code { display: none; }
+      div[style*="text-align:center;"] { display: block; padding: 40px 0; }
+      #feedback { width: 95%; padding: 10px; margin: 0 auto 30px; }
+   }
+   @media only screen and (min-width: 1024px) {
+      .slick-prev { display: none !important; }
+      .slick-next { display: block !important; }
+      body .slick-slider .slick-next:before, body .slick-slider .slick-prev:before { color: #ff2d98; opacity: 1 !important; font-size: 25px; }
+      body .slick-slider .slick-next:hover:before, body .slick-slider .slick-prev:hover:before { color: #fff; }
+      .iframe-crop { margin-top: 5px; margin-bottom: 20px; }
+      body { max-width: 1200px; margin: 0 auto; }
+      #main-content { display: flex; justify-content: space-between; align-items: center; gap: 0; }
+      #carousel { flex: 1; max-width: 60%; }
+      #feedback { flex: 1; max-width: 35%; }
+      .qr-code { display: flex; position: relative; flex-direction: row; align-items: center; justify-content: space-between; gap: 5px; margin-bottom: 6px; margin-top: 10px; }
+      .qr-code img { width: 100%; max-width: 180px; }
+      #feedback, .qr-code { flex: 1; }
+   }
+   </style>
+   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+</head>
+<body>
+   <header>
+      <div class="logo-title-container" style="display: flex; align-items: center; justify-content: center; gap: 5px; width: fit-content; margin: 0 auto;">
+         <a style="background-image: url('images/pcollect.png'); background-size: 90px; background-position: -20px center; width: 60px; height: 80px; border-radius: 22%; display: block;"></a>
+         <a>PCollect</a>
       </div>
-      <div id="main-content">
-         <div id="tapToAnimate">Tap to animate</div>
-         <div id="carousel">
-            <div class="carousel-item">
-               <img src="images/1.png" class="carousel-image" alt="Screenshot 1">
-               <video src="images/1.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
-            </div>
-            <div class="carousel-item">
-               <img src="images/2.png" class="carousel-image" alt="Screenshot 2">
-               <video src="images/2.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
-            </div>
-            <div class="carousel-item">
-               <img src="images/3.png" class="carousel-image" alt="Screenshot 3">
-               <video src="images/3.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
-            </div>
-            <div class="carousel-item">
-               <img src="images/4.png" class="carousel-image" alt="Screenshot 4">
-               <video src="images/4.mp4" class="carousel-image" loop muted preload="auto" style="display:none;" playsinline></video>
-            </div>
+      <div id="slogan">Catalog your K-pop collection!</div>
+   </header>
+   <div style="text-align:center; padding: 20px 0;">
+      <div id="downloadCount">Now available on Android!</div>
+      <a href="https://apps.apple.com/app/pcollect-kpop-photocards/id6448884412?itsct=apps_box_badge&amp;itscg=30200" class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px;">
+         <div>
+            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store" style="border-radius: 13px; width: 180px; height: 60px;">
          </div>
-         <div id="feedback">
-           <!--<div id="downloadCount2">Now on Android!</div>-->
-           <div class="qr-code">
-             <div style="display: flex; flex-direction: column; align-items: center;">
+      </a>
+      <a href='https://play.google.com/store/apps/details?id=com.tksproductions.pcollect' class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px; position: relative;">
+         <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' style="width: 170px; height: 82px; object-fit: cover; object-position: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
+         <div style="position: absolute; top: 0; height: 11%; width: 100%; background-color: black;"></div>
+         <div style="position: absolute; bottom: 0; height: 11%; width: 100%; background-color: black;"></div>
+      </a>
+   </div>
+   <div id="main-content">
+      <div id="carousel">
+         <div class="carousel-item">
+            <img src="images/1.png" class="carousel-image" alt="Screenshot 1">
+         </div>
+         <div class="carousel-item">
+            <img src="images/2.png" class="carousel-image" alt="Screenshot 2">
+         </div>
+         <div class="carousel-item">
+            <img src="images/3.png" class="carousel-image" alt="Screenshot 3">
+         </div>
+         <div class="carousel-item">
+            <img src="images/4.png" class="carousel-image" alt="Screenshot 4">
+         </div>
+         <div class="carousel-item">
+            <img src="images/5.png" class="carousel-image" alt="Screenshot 5">
+         </div>
+      </div>
+      <div id="feedback">
+         <div class="qr-code">
+            <div style="display: flex; flex-direction: column; align-items: center;">
                <a href="https://apps.apple.com/app/pcollect-kpop-photocards/id6448884412?itsct=apps_box_badge&amp;itscg=30200" class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px;">
-                 <div>
-                   <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store" style="border-radius: 13px; width: 180px; height: 60px;">
-                 </div>
+                  <div>
+                     <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1683849600" alt="Download on the App Store" style="border-radius: 13px; width: 180px; height: 60px;">
+                  </div>
                </a>
                <img src="images/qrcode.png" alt="App Store QR Code" style="width: 180px; height: auto; margin-top: 10px;">
-             </div>
-             <div style="display: flex; flex-direction: column; align-items: center;">
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
                <a href='https://play.google.com/store/apps/details?id=com.tksproductions.pcollect' class="appstore-button" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 180px; height: 60px; position: relative;">
-                 <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' style="width: 170px; height: 82px; object-fit: cover; object-position: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
-                 <div style="position: absolute; top: 0; height: 11%; width: 100%; background-color: black;"></div>
-                 <div style="position: absolute; bottom: 0; height: 11%; width: 100%; background-color: black;"></div>
+                  <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' style="width: 170px; height: 82px; object-fit: cover; object-position: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                  <div style="position: absolute; top: 0; height: 11%; width: 100%; background-color: black;"></div>
+                  <div style="position: absolute; bottom: 0; height: 11%; width: 100%; background-color: black;"></div>
                </a>
                <img src="images/qrcode2.png" alt="Google Play QR Code" style="width: 180px; height: auto; margin-top: 10px;">
-             </div>
-           </div>
-            <div class="iframe-crop">
-               <iframe class="tally-iframe" data-tally-src="https://tally.so/embed/mY0rjv?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="80%" height="290" frameborder="0" marginheight="0" marginwidth="0" title="PCollect Feedback Form"></iframe>
-               <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="pcollect" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF2D98" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
-               <script>
-                  var d = document,
-                      w = "https://tally.so/widgets/embed.js",
-                      v = function() {
-                          "undefined" != typeof Tally ? Tally.loadEmbeds() : d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e) {
-                              e.src = e.dataset.tallySrc
-                          }))
-                      };
-                  if ("undefined" != typeof Tally) v();
-                  else if (d.querySelector('script[src="' + w + '"]') == null) {
-                      var s = d.createElement("script");
-                      s.src = w;
-                      s.onload = v;
-                      s.onerror = v;
-                      d.body.appendChild(s);
-                  }
-               </script>
             </div>
          </div>
-      </div>
-      <footer>
-         <a href="https://instagram.com/pcollectapp" target="_blank"><img src="images/instagram.png" alt="Instagram" style="width: 50px;"></a>
-         <a href="https://tiktok.com/@pcollectapp" target="_blank"><img src="images/tiktok.png" alt="TikTok" style="width: 50px;"></a>
-         <a href="https://x.com/pcollectapp" target="_blank"><img src="images/x.png" alt="X" style="width: 50px;"></a>
-         <div style="margin-top: 2px; margin-bottom:10px">
-            Need help? <a href="mailto:help@pcollect.app?subject=PCollect Support Request&body=I need help with...">Contact Us</a>
-         </div>
-      </footer>
-      <script>
-         window.onload = function() {
-
-         var imagesToPreload = [
-         'images/1.mp4',
-         'images/2.mp4',
-         'images/3.mp4',
-         'images/4.mp4'
-         ];
-
-         imagesToPreload.forEach(function(image) {
-         var link = document.createElement('link');
-         link.rel = 'preload';
-         link.href = image;
-         link.as = 'image';
-         document.head.appendChild(link);
-         });
-         };
-
-         function toggleChatbot() {
-         const chatbotModal = document.getElementById('chatbotModal');
-         const chatbotIcon = document.getElementById('chatbotIcon');
-
-         if (chatbotModal.style.display === 'none' || chatbotModal.style.display === '') {
-         chatbotModal.style.display = 'block';
-         chatbotIcon.style.visibility = 'hidden';
-
-         document.addEventListener('click', handleOutsideClick);
-         } else {
-         closeChatbot();
-         }
-         }
-
-         function closeChatbot() {
-         const chatbotModal = document.getElementById('chatbotModal');
-         const chatbotIcon = document.getElementById('chatbotIcon');
-
-         chatbotModal.style.display = 'none';
-         chatbotIcon.style.visibility = 'visible';
-
-         document.removeEventListener('click', handleOutsideClick);
-         }
-
-         function handleOutsideClick(event) {
-         const chatbotModal = document.getElementById('chatbotModal');
-         if (!chatbotModal.contains(event.target) && event.target.id !== 'chatbotIcon') {
-         closeChatbot();
-         }
-         }
-
-         $(document).ready(function() {
-         var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
-
-         // Function to play video
-         function playVideo(video) {
-         pauseAllVideosExcept(video);
-         $(video).show().get(0).play();
-         $(video).siblings('img').hide();
-         }
-
-         // Function to pause video
-         function pauseVideo(video) {
-         $(video).hide().get(0).pause();
-         $(video).siblings('img').show();
-         video.currentTime = 0;
-         }
-
-         // Function to pause all videos except the currently playing one
-         function pauseAllVideosExcept(currentVideo) {
-         $('#carousel .carousel-item video').each(function() {
-            if (this !== currentVideo) {
-                pauseVideo(this);
-            }
-         });
-         }
-
-         if (isTouchDevice) {
-         // For touch devices (mobile, tablets)
-         $('#carousel .carousel-item').on('click', function(e) {
-            var video = $(this).find('video')[0];
-
-            // Play or pause video based on its current state
-            if (video.paused) {
-                playVideo(video);
-            } else {
-                pauseVideo(video);
-            }
-         });
-         } else {
-         // For non-touch devices (desktop)
-         $('#carousel .carousel-item').on('mouseenter', function() {
-            var video = $(this).find('video')[0];
-            playVideo(video);
-         }).on('mouseleave', function() {
-            var video = $(this).find('video')[0];
-            pauseVideo(video);
-         });
-         }
-         });
-
-           $('#carousel').slick({
-               dots: true,
-               arrows: true,
-               infinite: true,
-               speed: 300,
-               slidesToShow: 3,
-               adaptiveHeight: true,
-               centerMode: false, 
-               responsive: [
-                   {
-                       breakpoint: 1028, 
-                       settings: {
-                           slidesToShow: 1,
-                           centerMode: true, 
-                           centerPadding: '15%',
-                       }
-                   }
-               ]
-           });
-           document.addEventListener('touchmove', function(event) {
-               if (event.scale !== 1) { 
-                   event.preventDefault(); 
+         <div class="iframe-crop">
+            <iframe class="tally-iframe" data-tally-src="https://tally.so/embed/mY0rjv?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="80%" height="290" frameborder="0" marginheight="0" marginwidth="0" title="PCollect Feedback Form"></iframe>
+            <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="pcollect" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF2D98" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+            <script>
+               var d = document,
+                   w = "https://tally.so/widgets/embed.js",
+                   v = function() {
+                       "undefined" != typeof Tally ? Tally.loadEmbeds() : d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e) {
+                           e.src = e.dataset.tallySrc
+                       }))
+                   };
+               if ("undefined" != typeof Tally) v();
+               else if (d.querySelector('script[src="' + w + '"]') == null) {
+                   var s = d.createElement("script");
+                   s.src = w;
+                   s.onload = v;
+                   s.onerror = v;
+                   d.body.appendChild(s);
                }
-           }, { passive: false });  
-
-           document.addEventListener('DOMContentLoaded', function() {
-              const startDate = new Date('2024-02-01T00:00:00');
-              const initialDownloads = 22500;
-              const dailyIncrease = 140;
-              const minuteIncrease = dailyIncrease / (24 * 60);
-
-              const downloadCount = document.getElementById('downloadCount');
-              const downloadCount2 = document.getElementById('downloadCount2');
-
-              function displayCount() {
-                  const now = new Date();
-                  const diffInMilliseconds = now - startDate;
-
-                  const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
-
-                  const totalDownloads = initialDownloads + Math.floor(diffInMinutes * minuteIncrease);
-
-                  const formattedTotalDownloads = totalDownloads.toLocaleString();
-
-                  //downloadCount.innerText = `${formattedTotalDownloads} Downloads`;
-                  //downloadCount2.innerText = `${formattedTotalDownloads} Downloads`;
-              }
-
-              displayCount();
-          });
-
-      </script>
-   </body>
+            </script>
+         </div>
+      </div>
+   </div>
+   <footer>
+      <a href="https://instagram.com/pcollectapp" target="_blank"><img src="images/instagram.png" alt="Instagram" style="width: 50px;"></a>
+      <a href="https://tiktok.com/@pcollectapp" target="_blank"><img src="images/tiktok.png" alt="TikTok" style="width: 50px;"></a>
+      <a href="https://x.com/pcollectapp" target="_blank"><img src="images/x.png" alt="X" style="width: 50px;"></a>
+      <div style="margin-top: 2px; margin-bottom:10px">
+         Need help? <a href="mailto:help@pcollect.app?subject=PCollect Support Request&body=I need help with...">Contact Us</a>
+      </div>
+   </footer>
+   <script>
+      window.onload = function() {
+         var imagesToPreload = ['images/1.mp4', 'images/2.mp4', 'images/3.mp4', 'images/4.mp4'];
+         imagesToPreload.forEach(function(image) {
+            var link = document.createElement('link');
+            link.rel = 'preload';
+            link.href = image;
+            link.as = 'image';
+            document.head.appendChild(link);
+         });
+      };
+      $(document).ready(function() {
+         var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+         $('#carousel').slick({
+             dots: true,
+             arrows: true,
+             infinite: true,
+             speed: 300,
+             slidesToShow: 3,
+             adaptiveHeight: true,
+             centerMode: false,
+             responsive: [
+                 {
+                     breakpoint: 1028, 
+                     settings: {
+                         arrows: false,
+                         slidesToShow: 1,
+                         centerMode: true, 
+                         centerPadding: '15%',
+                     }
+                 }
+             ]
+         });
+      });
+      document.addEventListener('touchmove', function(event) {
+          if (event.scale !== 1) { 
+              event.preventDefault(); 
+          }
+      }, { passive: false });  
+      document.addEventListener('DOMContentLoaded', function() {
+          const startDate = new Date('2024-02-01T00:00:00');
+          const initialDownloads = 22500;
+          const dailyIncrease = 140;
+          const minuteIncrease = dailyIncrease / (24 * 60);
+          const downloadCount = document.getElementById('downloadCount');
+          const downloadCount2 = document.getElementById('downloadCount2');
+          function displayCount() {
+              const now = new Date();
+              const diffInMilliseconds = now - startDate;
+              const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
+              const totalDownloads = initialDownloads + Math.floor(diffInMinutes * minuteIncrease);
+              const formattedTotalDownloads = totalDownloads.toLocaleString();
+          }
+          displayCount();
+      });
+   </script>
+</body>
 </html>
