@@ -101,6 +101,9 @@
          <div class="carousel-item">
             <img src="images/05.png" class="carousel-image" alt="Screenshot 5">
          </div>
+         <div class="carousel-item">
+            <img src="images/06.png" class="carousel-image" alt="Screenshot 5">
+         </div>
       </div>
       <div id="feedback">
          <div class="qr-code">
@@ -153,16 +156,6 @@
       </div>
    </footer>
    <script>
-      window.onload = function() {
-         var imagesToPreload = ['images/1.mp4', 'images/2.mp4', 'images/3.mp4', 'images/4.mp4'];
-         imagesToPreload.forEach(function(image) {
-            var link = document.createElement('link');
-            link.rel = 'preload';
-            link.href = image;
-            link.as = 'image';
-            document.head.appendChild(link);
-         });
-      };
       $(document).ready(function() {
          var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
          $('#carousel').slick({
