@@ -165,12 +165,13 @@
          var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
          $('#carousel').slick({
              dots: true,
-             arrows: true,
+             arrows: false,
              infinite: true,
              speed: 300,
              slidesToShow: 3,
              adaptiveHeight: true,
-             centerMode: false,
+             centerMode: true,
+             centerPadding: '2%',
              responsive: [
                  {
                      breakpoint: 1028, 
